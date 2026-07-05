@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Blog | Xin TIAN</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 <style>
   :root {
     --bg: #fafbfc;
@@ -82,41 +83,147 @@
   .sidebar-link:hover { background: #d0d9ea; transform: translateY(-1px); }
   .sidebar-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-  .main { flex: 0 1 780px; padding: 48px 52px 60px; width: 780px; }
-
-  .section-label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-    color: var(--text-light); margin-bottom: 20px; font-weight: 600;
+  .main {
+    flex: 0 1 780px;
+    padding: 48px 52px 60px;
+    width: 780px;
   }
 
-  .blog-empty {
-    text-align: center;
-    padding: 80px 0;
+  /* ── Blog List ── */
+  .blog-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .blog-post-card {
+    padding: 20px 24px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+
+  .blog-post-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  }
+
+  .blog-post-date {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 4px;
+  }
+
+  .blog-post-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+
+  /* ── Blog Post View ── */
+  .post-header {
+    margin-bottom: 28px;
+  }
+
+  .post-back {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+
+  .post-back:hover { text-decoration: underline; }
+
+  .post-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 6px;
+  }
+
+  .post-date {
+    font-size: 13px;
     color: var(--text-light);
   }
 
-  .blog-empty svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.3; }
-  .blog-empty h3 { font-size: 17px; color: var(--text-secondary); margin-bottom: 8px; }
-  .blog-empty p { font-size: 14px; max-width: 400px; margin: 0 auto; line-height: 1.6; }
-
-  .blog-list { display: flex; flex-direction: column; gap: 24px; }
-
-  .blog-post {
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
+  .post-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0 0 28px;
   }
-  .blog-post:last-child { border-bottom: none; }
 
-  .blog-post-date {
-    font-size: 12px; color: var(--text-light); margin-bottom: 4px;
+  /* Markdown content styles */
+  .post-content {
+    line-height: 1.78;
+    font-size: 15px;
+    color: var(--text-secondary);
   }
-  .blog-post-title {
-    font-size: 16px; font-weight: 600; color: var(--text);
-    margin-bottom: 6px; text-decoration: none;
+
+  .post-content h1 { font-size: 22px; font-weight: 700; color: var(--text); margin: 32px 0 12px; }
+  .post-content h2 { font-size: 18px; font-weight: 600; color: var(--text); margin: 28px 0 10px; }
+  .post-content h3 { font-size: 16px; font-weight: 600; color: var(--text); margin: 24px 0 8px; }
+  .post-content p { margin-bottom: 14px; }
+  .post-content ul, .post-content ol { margin-bottom: 14px; padding-left: 22px; }
+  .post-content li { margin-bottom: 6px; }
+  .post-content strong { color: var(--text); font-weight: 600; }
+  .post-content code {
+    font-family: "SF Mono", "Fira Code", "Fira Mono", Menlo, Consolas, monospace;
+    font-size: 13.5px;
+    background: var(--accent-light);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent);
   }
-  .blog-post-title:hover { color: var(--accent); }
-  .blog-post-excerpt {
-    font-size: 13.5px; color: var(--text-secondary); line-height: 1.6;
+  .post-content pre {
+    background: #1a1a2e;
+    color: #e8edf5;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    margin-bottom: 16px;
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .post-content pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+  .post-content a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .post-content a:hover { text-decoration: underline; }
+  .post-content blockquote {
+    border-left: 3px solid var(--accent);
+    padding-left: 16px;
+    color: var(--text-light);
+    margin: 0 0 14px;
+    font-style: italic;
+  }
+  .post-content img {
+    max-width: 100%;
+    border-radius: var(--radius);
+    margin: 12px 0;
+  }
+
+  /* Loading */
+  .blog-loading {
+    text-align: center;
+    padding: 80px 0;
+    color: var(--text-light);
   }
 
   .footer {
@@ -125,7 +232,7 @@
     font-size: 12.5px; color: var(--text-light);
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .topnav { display: flex; }
     .sidebar-nav { display: none; }
     .layout { flex-direction: column; }
@@ -134,7 +241,8 @@
       padding: 32px 24px 28px; border-right: none; border-bottom: 1px solid var(--border);
     }
     .sidebar-photo { width: 100px; height: 100px; }
-    .main { padding: 32px 24px 40px; }
+    .main { padding: 32px 24px 40px; flex: 1; width: auto; }
+    .post-title { font-size: 22px; }
   }
 </style>
 </head>
@@ -178,20 +286,147 @@
     </div>
   </aside>
 
-  <main class="main">
-    <div class="section-label">Blog</div>
-    <div class="blog-empty">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
-      </svg>
-      <h3>Coming Soon</h3>
-      <p>Blog posts will appear here. Add your articles as HTML files in the blog folder or edit this page directly.</p>
-    </div>
-    <div class="footer">
-      &copy; 2026 Xin TIAN.
-    </div>
+  <main class="main" id="blog-content">
+    <div class="blog-loading">Loading posts...</div>
   </main>
 
 </div>
+
+<script>
+(function() {
+  var main = document.getElementById('blog-content');
+
+  function showList(posts) {
+    if (posts.length === 0) {
+      main.innerHTML = '<div class="blog-loading"><p>No posts yet.</p></div>';
+      return;
+    }
+
+    var html = '<div class="blog-list">';
+    posts.forEach(function(post) {
+      html += '<a class="blog-post-card" href="#' + post.slug + '" data-slug="' + post.slug + '">';
+      html += '<div class="blog-post-date">' + post.date + '</div>';
+      html += '<div class="blog-post-title">' + post.title + '</div>';
+      html += '</a>';
+    });
+    html += '</div>';
+    html += '<div class="footer">&copy; 2026 Xin TIAN.</div>';
+
+    main.innerHTML = html;
+
+    // Click handler
+    var cards = main.querySelectorAll('.blog-post-card');
+    cards.forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        e.preventDefault();
+        var slug = card.getAttribute('data-slug');
+        loadPost(slug);
+        window.location.hash = slug;
+      });
+    });
+  }
+
+  function loadPost(slug) {
+    main.innerHTML = '<div class="blog-loading">Loading post...</div>';
+
+    fetch('posts/' + slug + '.md')
+      .then(function(r) {
+        if (!r.ok) throw new Error('Post not found');
+        return r.text();
+      })
+      .then(function(md) {
+        var html = marked.parse(md);
+
+        // Extract title and date from raw markdown
+        var lines = md.split('\n');
+        var title = '';
+        var date = '';
+        var contentStart = 0;
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (!title && line.startsWith('# ')) {
+            title = line.slice(2);
+            contentStart = i + 1;
+          } else if (title && !date && /\d{4}-\d{2}-\d{2}/.test(line)) {
+            date = line.replace(/\*/g, '').trim();
+            contentStart = i + 1;
+          }
+          if (title && date) break;
+        }
+
+        // Remove title and date from rendered HTML
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        var children = tmp.children;
+        // Remove first H1
+        if (children.length > 0 && children[0].tagName === 'H1') {
+          children[0].remove();
+        }
+        // Remove date paragraph (starts with date)
+        for (var j = 0; j < children.length; j++) {
+          if (children[j].textContent && /\d{4}-\d{2}-\d{2}/.test(children[j].textContent.trim())) {
+            children[j].remove();
+            break;
+          }
+        }
+        html = tmp.innerHTML;
+
+        var fullHtml = '';
+        fullHtml += '<div class="post-header">';
+        fullHtml += '<a class="post-back" href="#list">&larr; Back to posts</a>';
+        fullHtml += '<h1 class="post-title">' + title + '</h1>';
+        fullHtml += '<div class="post-date">' + date + '</div>';
+        fullHtml += '</div>';
+        fullHtml += '<hr class="post-divider">';
+        fullHtml += '<div class="post-content">' + html + '</div>';
+        fullHtml += '<div class="footer">&copy; 2026 Xin TIAN.</div>';
+
+        main.innerHTML = fullHtml;
+
+        // Back handler
+        var backBtn = main.querySelector('.post-back');
+        backBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.location.hash = '';
+          loadManifest();
+        });
+      })
+      .catch(function() {
+        main.innerHTML = '<div class="blog-loading"><p>Failed to load post.</p><p style="font-size:13px;margin-top:8px;"><a href="#list">Back to posts</a></p></div>';
+      });
+  }
+
+  function loadManifest() {
+    main.innerHTML = '<div class="blog-loading">Loading posts...</div>';
+    fetch('posts/manifest.json')
+      .then(function(r) {
+        if (!r.ok) throw new Error('No manifest');
+        return r.json();
+      })
+      .then(function(posts) { showList(posts); })
+      .catch(function() {
+        main.innerHTML = '<div class="blog-loading"><p>No posts yet.</p><p style="font-size:13px;margin-top:8px;">Run <code>python update_posts.py</code> to generate the manifest.</p></div>';
+      });
+  }
+
+  // Init
+  var hash = window.location.hash.slice(1);
+  if (hash && hash !== 'list') {
+    loadPost(hash);
+  } else {
+    loadManifest();
+  }
+
+  window.addEventListener('hashchange', function() {
+    var h = window.location.hash.slice(1);
+    if (h && h !== 'list') {
+      loadPost(h);
+    } else {
+      loadManifest();
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
