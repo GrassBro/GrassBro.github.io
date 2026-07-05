@@ -33,7 +33,7 @@
     font-size: 15px;
   }
 
-  .layout { display: flex; min-height: 100vh; }
+  .layout { display: flex; min-height: 100vh; justify-content: center; }
 
   .topnav { display: none; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 0 24px; }
   .topnav-inner { display: flex; gap: 0; }
@@ -82,11 +82,28 @@
   .sidebar-link:hover { background: #d0d9ea; transform: translateY(-1px); }
   .sidebar-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-  .main { flex: 1; padding: 48px 52px 60px; max-width: 900px; }
+  .main {
+    flex: 0 1 820px;
+    padding: 48px 52px 60px;
+    width: 820px;
+  }
 
-  .section-label {
-    font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
-    color: var(--text-light); margin-bottom: 20px; font-weight: 600;
+  .gallery-category { margin-bottom: 44px; }
+
+  .category-header {
+    margin-bottom: 16px;
+  }
+
+  .category-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .category-desc {
+    font-size: 12.5px;
+    color: var(--text-light);
   }
 
   .gallery-grid {
@@ -95,34 +112,53 @@
     gap: 16px;
   }
 
+  /* Placeholder when no image */
   .gallery-item {
-    aspect-ratio: 1;
+    position: relative;
     background: var(--accent-light);
     border-radius: var(--radius);
+    aspect-ratio: 4 / 3;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--text-light);
     font-size: 13px;
-    transition: background 0.2s;
-    cursor: default;
+    cursor: pointer;
     overflow: hidden;
+    transition: transform 0.2s;
   }
 
-  .gallery-item:hover { background: #d0d9ea; }
+  .gallery-item:hover { transform: scale(1.02); }
 
   .gallery-item img {
-    width: 100%; height: 100%; object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .gallery-empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    padding: 60px 0;
-    color: var(--text-light);
+  /* Caption for scenery & food */
+  .gallery-caption {
+    padding: 8px 0 2px;
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.4;
   }
 
-  .gallery-empty svg { width: 48px; height: 48px; margin-bottom: 12px; opacity: 0.3; }
+  .gallery-caption .label {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .gallery-item.empty {
+    min-height: 120px;
+  }
+
+  .gallery-item.empty svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.25;
+  }
 
   .footer {
     margin-top: 52px; padding-top: 20px;
@@ -130,7 +166,7 @@
     font-size: 12.5px; color: var(--text-light);
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 900px) {
     .topnav { display: flex; }
     .sidebar-nav { display: none; }
     .layout { flex-direction: column; }
@@ -139,8 +175,12 @@
       padding: 32px 24px 28px; border-right: none; border-bottom: 1px solid var(--border);
     }
     .sidebar-photo { width: 100px; height: 100px; }
-    .main { padding: 32px 24px 40px; }
+    .main { padding: 32px 24px 40px; flex: 1; width: auto; }
     .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 500px) {
+    .gallery-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -185,27 +225,94 @@
   </aside>
 
   <main class="main">
-    <div class="section-label">Gallery</div>
-    <div class="gallery-grid">
-      <div class="gallery-item" style="grid-row: span 1; aspect-ratio: 4 / 3;">
-        <img src="images/photo.jpg" alt="" style="width:100%;height:100%;object-fit:cover;">
+
+    <!-- Animals -->
+    <section class="gallery-category">
+      <div class="category-header">
+        <h2 class="category-title">Animals</h2>
+        <p class="category-desc">Photos of animals I have encountered</p>
       </div>
-      <div class="gallery-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <div class="gallery-grid">
+        <div class="gallery-item empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="gallery-item empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <div class="gallery-item empty">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
       </div>
-      <div class="gallery-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    </section>
+
+    <!-- Scenery -->
+    <section class="gallery-category">
+      <div class="category-header">
+        <h2 class="category-title">Scenery</h2>
+        <p class="category-desc">Landscapes, cityscapes, and places I have visited</p>
       </div>
-      <div class="gallery-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <div class="gallery-grid">
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Location:</span> e.g., Hong Kong Peak</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Location:</span> e.g., Lantau Island</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Location:</span> e.g., Shenzhen Bay</div>
+        </div>
       </div>
-      <div class="gallery-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    </section>
+
+    <!-- Food -->
+    <section class="gallery-category">
+      <div class="category-header">
+        <h2 class="category-title">Food</h2>
+        <p class="category-desc">Delicious meals and treats from around the world</p>
       </div>
-      <div class="gallery-item">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      <div class="gallery-grid">
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Food:</span> e.g., Dim Sum</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Food:</span> e.g., Hotpot</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Food:</span> e.g., Sushi</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Food:</span> e.g., Ramen</div>
+        </div>
+        <div>
+          <div class="gallery-item empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          </div>
+          <div class="gallery-caption"><span class="label">Food:</span> e.g., BBQ Pork</div>
+        </div>
       </div>
-    </div>
+    </section>
+
     <div class="footer">
       &copy; 2026 Xin TIAN.
     </div>

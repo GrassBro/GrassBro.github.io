@@ -33,7 +33,7 @@
     font-size: 15px;
   }
 
-  .layout { display: flex; min-height: 100vh; }
+  .layout { display: flex; min-height: 100vh; justify-content: center; }
 
   .topnav { display: none; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 0 24px; }
   .topnav-inner { display: flex; gap: 0; }
@@ -82,7 +82,7 @@
   .sidebar-link:hover { background: #d0d9ea; transform: translateY(-1px); }
   .sidebar-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-  .main { flex: 1; padding: 48px 52px 60px; max-width: 780px; }
+  .main { flex: 0 1 780px; padding: 48px 52px 60px; width: 780px; }
 
   .section-label {
     font-size: 11px; text-transform: uppercase; letter-spacing: 1.2px;
