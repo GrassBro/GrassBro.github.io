@@ -8,6 +8,8 @@ https://github.com/apple-aiml-research/ml-sharp/blob/main/LICENSE_MODEL
 from __future__ import annotations
 
 import argparse
+import base64
+from io import BytesIO
 from pathlib import Path
 
 import numpy as np
@@ -95,7 +97,24 @@ def main() -> None:
     depth_image = Image.fromarray(depth_array, mode="L").filter(ImageFilter.GaussianBlur(0.7))
     args.output.parent.mkdir(parents=True, exist_ok=True)
     depth_image.save(args.output, optimize=True)
+
+    web_image = Image.fromarray(image).resize(
+        (args.resolution, args.resolution),
+        Image.Resampling.LANCZOS,
+    )
+    image_buffer = BytesIO()
+    web_image.save(image_buffer, format="WEBP", quality=82, method=6)
+    image_data = base64.b64encode(image_buffer.getvalue()).decode("ascii")
+    depth_data = base64.b64encode(args.output.read_bytes()).decode("ascii")
+    asset_stem = args.output.stem.removesuffix("-depth")
+    web_asset = args.output.with_name(f"{asset_stem}-2p5d-data.js")
+    web_asset.write_text(
+        f"window.SHARP_2P5D_IMAGE = 'data:image/webp;base64,{image_data}';\n"
+        f"window.SHARP_2P5D_DEPTH = 'data:image/png;base64,{depth_data}';\n",
+        encoding="ascii",
+    )
     print(f"Wrote {args.output} ({args.output.stat().st_size / 1024:.1f} KiB)")
+    print(f"Wrote {web_asset} ({web_asset.stat().st_size / 1024:.1f} KiB)")
 
 
 if __name__ == "__main__":

@@ -1365,6 +1365,8 @@
   })();
 </script>
 
+<script src="images/photo-2p5d-data.js"></script>
+
 <!-- 2.5D parallax from the SHARP monocular disparity map. -->
 <script>
   (function () {
@@ -1373,7 +1375,7 @@
     if (!canvas || !windowEl) return;
 
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || window.location.protocol === 'file:') return;
+    if (reduce) return;
     var gl = canvas.getContext('webgl', {
       alpha: true,
       antialias: true,
@@ -1411,10 +1413,17 @@
       '  vec2 centered = (vUv - 0.5) / uZoom + 0.5;',
       '  float depth = texture2D(uDepth, centered).r;',
       '  float parallax = depth - 0.5;',
-      '  vec2 offset = uPointer * parallax * 0.024;',
+      '  vec2 offset = uPointer * parallax * 0.075;',
       '  vec2 uv = clamp(centered + offset, 0.002, 0.998);',
       '  vec3 color = texture2D(uImage, uv).rgb;',
+      '  vec2 texel = vec2(0.0025, 0.0025);',
+      '  float dx = texture2D(uDepth, clamp(uv + vec2(texel.x, 0.0), 0.0, 1.0)).r',
+      '           - texture2D(uDepth, clamp(uv - vec2(texel.x, 0.0), 0.0, 1.0)).r;',
+      '  float dy = texture2D(uDepth, clamp(uv + vec2(0.0, texel.y), 0.0, 1.0)).r',
+      '           - texture2D(uDepth, clamp(uv - vec2(0.0, texel.y), 0.0, 1.0)).r;',
+      '  float rim = abs(dx) + abs(dy);',
       '  color += vec3(0.018, 0.024, 0.03) * smoothstep(0.58, 1.0, depth);',
+      '  color += vec3(0.12, 0.15, 0.18) * rim * (0.45 + length(uPointer) * 0.55);',
       '  gl_FragColor = vec4(color, 1.0);',
       '}'
     ].join('\n'));
@@ -1442,7 +1451,7 @@
     var zoomLocation = gl.getUniformLocation(program, 'uZoom');
     var imageLocation = gl.getUniformLocation(program, 'uImage');
     var depthLocation = gl.getUniformLocation(program, 'uDepth');
-    gl.uniform1f(zoomLocation, 1.12);
+    gl.uniform1f(zoomLocation, 1.18);
     gl.uniform1i(imageLocation, 0);
     gl.uniform1i(depthLocation, 1);
 
@@ -1515,11 +1524,11 @@
       if (ready && isUser) requestDraw();
     }
 
-    loadTexture('images/photo.jpg', 0, function () {
+    loadTexture(window.SHARP_2P5D_IMAGE || 'images/photo.jpg', 0, function () {
       imageReady = true;
       updateVisibility();
     });
-    loadTexture('images/photo-depth.png', 1, function () {
+    loadTexture(window.SHARP_2P5D_DEPTH || 'images/photo-depth.png', 1, function () {
       depthReady = true;
       updateVisibility();
     });
