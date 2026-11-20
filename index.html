@@ -219,6 +219,101 @@
     flex-shrink: 0;
   }
 
+  /* Section HUD */
+  .section-hud {
+    --hud-progress: 0;
+    position: fixed;
+    top: 50%;
+    right: 16px;
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    padding: 12px 8px;
+    transform: translateY(-50%);
+    font-family: var(--mono);
+  }
+  .section-hud::before,
+  .section-hud::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 17px;
+    bottom: 17px;
+    width: 1px;
+  }
+  .section-hud::before { background: rgba(127, 246, 255, 0.16); }
+  .section-hud::after {
+    background: linear-gradient(var(--cyan), var(--green));
+    box-shadow: 0 0 7px rgba(63, 233, 255, 0.55);
+    transform: scaleY(var(--hud-progress));
+    transform-origin: 50% 0;
+    transition: transform 0.18s linear;
+  }
+  .section-hud a {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    height: 18px;
+    color: var(--text-faint);
+    text-decoration: none;
+  }
+  .hud-num {
+    width: 14px;
+    font-size: 7.5px;
+    opacity: 0.52;
+    transition: color 0.18s, opacity 0.18s;
+  }
+  .hud-dot {
+    position: relative;
+    z-index: 1;
+    width: 5px;
+    height: 5px;
+    border: 1px solid rgba(127, 246, 255, 0.55);
+    border-radius: 50%;
+    background: #07101a;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+  }
+  .hud-label {
+    position: absolute;
+    right: calc(100% + 8px);
+    padding: 3px 7px;
+    color: var(--cyan-2);
+    font-size: 8.5px;
+    letter-spacing: 0.6px;
+    background: rgba(5, 10, 18, 0.9);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    opacity: 0;
+    transform: translateX(5px);
+    pointer-events: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .section-hud a:hover .hud-label,
+  .section-hud a:focus-visible .hud-label,
+  .section-hud a.is-active .hud-label {
+    opacity: 1;
+    transform: none;
+  }
+  .section-hud a:focus-visible { outline: none; }
+  .section-hud a:focus-visible .hud-dot {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+  .section-hud a:hover .hud-dot,
+  .section-hud a.is-active .hud-dot {
+    border-color: var(--green);
+    background: var(--green);
+    box-shadow: 0 0 8px rgba(116, 255, 184, 0.75);
+    transform: scale(1.35);
+  }
+  .section-hud a:hover .hud-num,
+  .section-hud a.is-active .hud-num {
+    color: var(--green);
+    opacity: 1;
+  }
+
   /* ── Sidebar ── */
   .sidebar {
     width: var(--sidebar);
@@ -604,6 +699,169 @@
     box-shadow: 0 0 18px rgba(63, 233, 255, 0.12);
   }
 
+  /* Publication constellation */
+  .pub-constellation {
+    position: relative;
+    margin: -2px 0 16px;
+    border-top: 1px solid rgba(63, 233, 255, 0.06);
+    border-bottom: 1px solid rgba(63, 233, 255, 0.06);
+    background:
+      linear-gradient(90deg, rgba(63, 233, 255, 0.018), transparent 25%, transparent 75%, rgba(116, 255, 184, 0.014)),
+      radial-gradient(ellipse at 50% 50%, rgba(63, 233, 255, 0.035), transparent 68%);
+  }
+  .pub-map-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 8px;
+    font-family: var(--mono);
+    font-size: 8px;
+    color: rgba(148, 167, 191, 0.68);
+    letter-spacing: 0.7px;
+  }
+  .pub-map { position: relative; height: 104px; }
+  .pub-map svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .pub-map .map-line {
+    fill: none;
+    stroke: rgba(127, 246, 255, 0.16);
+    stroke-width: 0.7;
+    vector-effect: non-scaling-stroke;
+  }
+  .pub-map .map-trace {
+    fill: none;
+    stroke: rgba(116, 255, 184, 0.58);
+    stroke-width: 0.8;
+    stroke-dasharray: 3 13;
+    vector-effect: non-scaling-stroke;
+    animation: pubTrace 8s linear infinite;
+  }
+  .pub-node {
+    --node-color: 63, 233, 255;
+    position: absolute;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    color: rgb(var(--node-color));
+    text-decoration: none;
+    transform: translate(-50%, -50%);
+  }
+  .pub-node-core {
+    position: absolute;
+    inset: 9px;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(var(--node-color), 0.7);
+    border-radius: 50%;
+    background: rgba(5, 11, 19, 0.92);
+    box-shadow:
+      0 0 7px rgba(var(--node-color), 0.42),
+      inset 0 0 5px rgba(var(--node-color), 0.2);
+    font-family: var(--mono);
+    font-size: 6.5px;
+    font-weight: 600;
+    transition: inset 0.18s, border-color 0.18s, box-shadow 0.18s;
+  }
+  .pub-node::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border: 1px solid rgba(var(--node-color), 0.18);
+    border-radius: 50%;
+    transition: inset 0.18s, border-color 0.18s, transform 0.3s;
+  }
+  .pub-node:hover::before,
+  .pub-node:focus-visible::before {
+    inset: 0;
+    border-color: rgba(var(--node-color), 0.65);
+    transform: rotate(45deg);
+  }
+  .pub-node:hover .pub-node-core,
+  .pub-node:focus-visible .pub-node-core {
+    inset: 7px;
+    border-color: rgb(var(--node-color));
+    box-shadow:
+      0 0 12px rgba(var(--node-color), 0.72),
+      inset 0 0 7px rgba(var(--node-color), 0.3);
+  }
+  .pub-node:focus-visible { outline: none; }
+  .pub-node-label {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 4px);
+    width: 220px;
+    padding: 7px 9px;
+    border: 1px solid rgba(var(--node-color), 0.28);
+    border-radius: 4px;
+    background: rgba(5, 10, 18, 0.96);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
+    color: var(--text-dim);
+    font-size: 9.5px;
+    line-height: 1.45;
+    opacity: 0;
+    transform: translate(-50%, 5px);
+    pointer-events: none;
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .pub-node-label b {
+    display: block;
+    margin-bottom: 2px;
+    color: rgb(var(--node-color));
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 500;
+  }
+  .pub-node:hover .pub-node-label,
+  .pub-node:focus-visible .pub-node-label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .pub-node.label-left .pub-node-label {
+    left: auto;
+    right: 0;
+    transform: translateY(5px);
+  }
+  .pub-node.label-left:hover .pub-node-label,
+  .pub-node.label-left:focus-visible .pub-node-label {
+    transform: none;
+  }
+  .pub-node.label-right .pub-node-label {
+    left: 0;
+    transform: translateY(5px);
+  }
+  .pub-node.label-right:hover .pub-node-label,
+  .pub-node.label-right:focus-visible .pub-node-label {
+    transform: none;
+  }
+  .pub-node.label-below .pub-node-label {
+    top: calc(100% + 4px);
+    bottom: auto;
+    transform: translate(-50%, -5px);
+  }
+  .pub-node.label-below:hover .pub-node-label,
+  .pub-node.label-below:focus-visible .pub-node-label {
+    transform: translate(-50%, 0);
+  }
+  .node-aaai { --node-color: 116, 255, 184; }
+  .node-cvpr { --node-color: 63, 233, 255; }
+  .node-tdsc { --node-color: 183, 140, 255; }
+  .node-ijcv { --node-color: 255, 200, 97; }
+  .node-tip { --node-color: 127, 246, 255; }
+  .node-bmvc { --node-color: 255, 94, 168; }
+  .node-1 { left: 8%; top: 64%; }
+  .node-2 { left: 20%; top: 32%; }
+  .node-3 { left: 34%; top: 70%; }
+  .node-4 { left: 48%; top: 34%; }
+  .node-5 { left: 61%; top: 69%; }
+  .node-6 { left: 74%; top: 29%; }
+  .node-7 { left: 88%; top: 62%; }
+
   /* Publications */
   .pub-list { display: flex; flex-direction: column; gap: 10px; }
   .pub-item {
@@ -650,15 +908,22 @@
   .pub-body { min-width: 0; position: relative; z-index: 1; }
   .pub-title-row { margin-bottom: 5px; }
   .pub-title {
+    position: relative;
+    display: inline-block;
     font-family: var(--disp);
     font-size: 15px;
     font-weight: 600;
     color: #eaf3ff;
     line-height: 1.4;
     text-decoration: none;
-    transition: color 0.15s;
+    transition: color 0.15s, text-shadow 0.15s;
   }
-  .pub-title:hover { color: var(--cyan); }
+  .pub-title:hover,
+  .pub-title:focus-visible {
+    color: var(--cyan);
+    text-shadow: 1px 0 rgba(255, 94, 168, 0.38), -1px 0 rgba(63, 233, 255, 0.32);
+    animation: signalJitter 0.22s steps(2, end) 1;
+  }
   .pub-authors { font-size: 12.5px; color: var(--text-faint); margin-bottom: 4px; }
   .pub-authors .self { color: var(--green); font-weight: 600; }
   .pub-venue { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
@@ -681,7 +946,12 @@
     transition: opacity 0.15s, color 0.15s;
   }
   .pub-link::after { content: " ↗"; }
-  .pub-link:hover { color: var(--green); opacity: 1; }
+  .pub-link:hover {
+    color: var(--green);
+    opacity: 1;
+    text-shadow: 1px 0 rgba(255, 94, 168, 0.34), -1px 0 rgba(63, 233, 255, 0.38);
+    animation: signalJitter 0.22s steps(2, end) 1;
+  }
   .pub-badge {
     display: inline-block;
     font-family: var(--mono);
@@ -721,11 +991,27 @@
   }
   .footer .sig { color: var(--cyan); }
 
+  .section-label:hover,
+  .section-label:focus-visible,
+  .sidebar-link:hover,
+  .sidebar-link:focus-visible {
+    text-shadow: 1px 0 rgba(255, 94, 168, 0.3), -1px 0 rgba(63, 233, 255, 0.35);
+    animation: signalJitter 0.22s steps(2, end) 1;
+  }
+
   /* Entrance + typed caret */
   .reveal { animation: revealSlide 0.75s cubic-bezier(0.16, 0.84, 0.24, 1) both; }
 
   /* Animation */
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pubTrace {
+    to { stroke-dashoffset: -96; }
+  }
+  @keyframes signalJitter {
+    0%, 100% { transform: none; }
+    32% { transform: translate(1px, -0.5px); }
+    66% { transform: translate(-1px, 0.5px); }
+  }
   @keyframes warpBreath {
     0%, 100% { transform: scale(0.93); opacity: 0.62; }
     48% { transform: scale(1.08); opacity: 1; }
@@ -766,6 +1052,12 @@
   }
 
   /* ── Responsive ── */
+  @media (max-width: 1380px) {
+    .hud-label { display: none; }
+  }
+  @media (max-width: 1100px) {
+    .section-hud { display: none; }
+  }
   @media (max-width: 920px) {
     .topnav { display: flex; }
     .layout { width: 100%; flex-direction: column; }
@@ -797,6 +1089,11 @@
     .pub-authors { font-size: 11.5px; }
     .pub-venue { font-size: 10px; }
     .pub-badge { padding: 2px 6px; font-size: 9px; }
+    .pub-map { height: 88px; }
+    .pub-map-head { font-size: 7px; }
+    .pub-node { width: 30px; height: 30px; }
+    .pub-node-core { inset: 8px; font-size: 6px; }
+    .pub-node-label { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -814,6 +1111,24 @@
 <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 <div id="cursor-glow" aria-hidden="true"></div>
+
+<nav class="section-hud" aria-label="Section navigation">
+  <a href="#about" data-section="about" aria-label="Go to About">
+    <span class="hud-num">01</span>
+    <span class="hud-dot" aria-hidden="true"></span>
+    <span class="hud-label">ABOUT</span>
+  </a>
+  <a href="#interests" data-section="interests" aria-label="Go to Research Interests">
+    <span class="hud-num">02</span>
+    <span class="hud-dot" aria-hidden="true"></span>
+    <span class="hud-label">RESEARCH</span>
+  </a>
+  <a href="#publications" data-section="publications" aria-label="Go to Selected Publications">
+    <span class="hud-num">03</span>
+    <span class="hud-dot" aria-hidden="true"></span>
+    <span class="hud-label">PUBLICATIONS</span>
+  </a>
+</nav>
 
 <!-- Mobile top nav -->
 <nav class="topnav">
@@ -914,6 +1229,52 @@
         <span class="section-rule"></span>
         <span class="section-count">07</span>
       </div>
+
+      <nav class="pub-constellation" aria-label="Publication constellation">
+        <div class="pub-map-head">
+          <span>PUBLICATION CONSTELLATION</span>
+          <span>07 LINKED SIGNALS</span>
+        </div>
+        <div class="pub-map">
+          <svg viewBox="0 0 640 104" preserveAspectRatio="none" aria-hidden="true">
+            <path class="map-line" d="M51 67 L128 33 L218 73 L307 35 L390 72 L474 30 L563 64"/>
+            <path class="map-line" d="M51 67 L218 73 L390 72 L563 64"/>
+            <path class="map-line" d="M128 33 L307 35 L474 30"/>
+            <path class="map-line" d="M128 33 L390 72 L474 30 L218 73"/>
+            <path class="map-trace" d="M51 67 L128 33 L218 73 L307 35 L390 72 L474 30 L563 64"/>
+          </svg>
+
+          <a class="pub-node node-aaai node-1 label-right" href="https://ojs.aaai.org/index.php/AAAI/article/view/38023" target="_blank" rel="noopener" aria-label="AAAI 2026: Video Mirror Detection with the Motion-in-Depth Cue" title="AAAI 2026 — Video Mirror Detection with the Motion-in-Depth Cue">
+            <span class="pub-node-core">01</span>
+            <span class="pub-node-label"><b>AAAI '26</b>Video Mirror Detection with the Motion-in-Depth Cue</span>
+          </a>
+          <a class="pub-node node-cvpr node-2 label-below" href="https://openaccess.thecvf.com/content/CVPR2024/html/Tian_Unsupervised_Salient_Instance_Detection_CVPR_2024_paper.html" target="_blank" rel="noopener" aria-label="CVPR 2024: Unsupervised Salient Instance Detection" title="CVPR 2024 — Unsupervised Salient Instance Detection">
+            <span class="pub-node-core">02</span>
+            <span class="pub-node-label"><b>CVPR '24</b>Unsupervised Salient Instance Detection</span>
+          </a>
+          <a class="pub-node node-tdsc node-3" href="https://ieeexplore.ieee.org/document/10444929/" target="_blank" rel="noopener" aria-label="TDSC 2024: Reverse Backdoor Distillation" title="TDSC 2024 — Reverse Backdoor Distillation">
+            <span class="pub-node-core">03</span>
+            <span class="pub-node-label"><b>TDSC '24</b>Reverse Backdoor Distillation</span>
+          </a>
+          <a class="pub-node node-cvpr node-4 label-below" href="https://openaccess.thecvf.com/content/CVPR2022/html/Tian_Bi-Directional_Object-Context_Prioritization_Learning_for_Saliency_Ranking_CVPR_2022_paper.html" target="_blank" rel="noopener" aria-label="CVPR 2022: Bi-directional Object-context Prioritization Learning for Saliency Ranking" title="CVPR 2022 — Bi-directional Object-context Prioritization Learning for Saliency Ranking">
+            <span class="pub-node-core">04</span>
+            <span class="pub-node-label"><b>CVPR '22</b>Bi-directional Object-context Prioritization Learning for Saliency Ranking</span>
+          </a>
+          <a class="pub-node node-ijcv node-5" href="https://link.springer.com/article/10.1007/s11263-021-01553-w" target="_blank" rel="noopener" aria-label="IJCV 2022: Learning to Detect Instance-level Salient Objects using Complementary Image Labels" title="IJCV 2022 — Learning to Detect Instance-level Salient Objects">
+            <span class="pub-node-core">05</span>
+            <span class="pub-node-label"><b>IJCV '22</b>Learning to Detect Instance-level Salient Objects</span>
+          </a>
+          <a class="pub-node node-tip node-6 label-below" href="https://ieeexplore.ieee.org/document/9565368/" target="_blank" rel="noopener" aria-label="TIP 2021: Intensity-Aware Single-Image Deraining With Semantic and Color Regularization" title="TIP 2021 — Intensity-Aware Single-Image Deraining">
+            <span class="pub-node-core">06</span>
+            <span class="pub-node-label"><b>TIP '21</b>Intensity-Aware Single-Image Deraining With Semantic and Color Regularization</span>
+          </a>
+          <a class="pub-node node-bmvc node-7 label-left" href="https://www.bmva-archive.org.uk/bmvc/2020/conference/papers/paper_0430.html" target="_blank" rel="noopener" aria-label="BMVC 2020: Weakly-supervised Salient Instance Detection" title="BMVC 2020 — Weakly-supervised Salient Instance Detection">
+            <span class="pub-node-core">07</span>
+            <span class="pub-node-label"><b>BMVC '20 · ORAL · RUNNER-UP</b>Weakly-supervised Salient Instance Detection</span>
+          </a>
+        </div>
+      </nav>
+
       <div class="pub-list">
 
         <div class="pub-item">
@@ -1073,8 +1434,10 @@
     var particles = [];
     var stars = [];
     var meteors = [];
+    var pointerTrails = [];
     var nextMeteorAt = 0;
     var mouse = { x: -9999, y: -9999, active: false };
+    var previousPointer = { x: 0, y: 0, time: 0, valid: false };
     var palette = [
       [63, 233, 255],
       [116, 255, 184],
@@ -1220,6 +1583,70 @@
         ctx.fillStyle = 'rgba(245,255,255,' + (fade * 0.92).toFixed(3) + ')';
         ctx.beginPath();
         ctx.arc(headX, headY, 1.25, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function emitPointerTrail(x, y) {
+      if (reduce) return;
+      var now = window.performance ? performance.now() : Date.now();
+      if (previousPointer.valid) {
+        var elapsed = Math.max(8, now - previousPointer.time);
+        var dx = x - previousPointer.x;
+        var dy = y - previousPointer.y;
+        var speed = Math.sqrt(dx * dx + dy * dy) / elapsed;
+        if (speed > 0.06) {
+          var count = Math.min(6, Math.max(1, Math.round(speed * 2.4)));
+          for (var i = 0; i < count; i++) {
+            pointerTrails.push({
+              x: x + (Math.random() - 0.5) * 5,
+              y: y + (Math.random() - 0.5) * 5,
+              vx: dx / elapsed * 72 + (Math.random() - 0.5) * 18,
+              vy: dy / elapsed * 72 + (Math.random() - 0.5) * 18,
+              born: now,
+              duration: 0.34 + Math.random() * 0.3,
+              radius: 0.45 + Math.random() * 0.85,
+              color: i % 4 === 0 ? '255,255,255' : (i % 3 === 0 ? '116,255,184' : '127,246,255')
+            });
+          }
+          if (pointerTrails.length > 140) pointerTrails.splice(0, pointerTrails.length - 140);
+        }
+      }
+      previousPointer.x = x;
+      previousPointer.y = y;
+      previousPointer.time = now;
+      previousPointer.valid = true;
+    }
+
+    function drawPointerTrails(now) {
+      if (!pointerTrails.length) return;
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      ctx.lineCap = 'round';
+      for (var i = pointerTrails.length - 1; i >= 0; i--) {
+        var trail = pointerTrails[i];
+        var age = (now - trail.born) / 1000;
+        if (age > trail.duration) {
+          pointerTrails.splice(i, 1);
+          continue;
+        }
+        var fade = 1 - age / trail.duration;
+        var x = trail.x + trail.vx * age;
+        var y = trail.y + trail.vy * age;
+        var tailX = x - trail.vx * 0.026;
+        var tailY = y - trail.vy * 0.026;
+        ctx.strokeStyle = 'rgba(' + trail.color + ',' + (fade * 0.34).toFixed(3) + ')';
+        ctx.lineWidth = 0.7;
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(x, y);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(' + trail.color + ',' + (fade * 0.88).toFixed(3) + ')';
+        ctx.shadowColor = 'rgba(' + trail.color + ',0.72)';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(x, y, trail.radius * (0.7 + fade * 0.3), 0, Math.PI * 2);
         ctx.fill();
       }
       ctx.restore();
@@ -1738,6 +2165,7 @@
         ctx.fill();
       }
       ctx.shadowBlur = 0;
+      drawPointerTrails(now || 0);
 
       if (!reduce && !document.hidden) raf = requestAnimationFrame(frame);
     }
@@ -1759,6 +2187,7 @@
     window.addEventListener('resize', function () { resize(); if (reduce) start(); });
 
     window.addEventListener('mousemove', function (e) {
+      emitPointerTrail(e.clientX, e.clientY);
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       mouse.active = true;
@@ -1770,12 +2199,14 @@
 
     window.addEventListener('mouseleave', function () {
       mouse.active = false;
+      previousPointer.valid = false;
       if (glow) glow.classList.remove('on');
     });
 
     window.addEventListener('touchmove', function (e) {
       if (!e.touches || !e.touches.length) return;
       var t = e.touches[0];
+      emitPointerTrail(t.clientX, t.clientY);
       mouse.x = t.clientX;
       mouse.y = t.clientY;
       mouse.active = true;
@@ -2021,16 +2452,38 @@
   (function () {
     // Scroll progress bar
     var bar = document.getElementById('scrollBar');
+    var hud = document.querySelector('.section-hud');
     function updateProgress() {
       if (!bar) return;
       var doc = document.documentElement;
       var max = doc.scrollHeight - doc.clientHeight;
       var ratio = max > 0 ? (doc.scrollTop || window.pageYOffset || 0) / max : 0;
       bar.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+      if (hud) hud.style.setProperty('--hud-progress', ratio.toFixed(4));
     }
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress);
     updateProgress();
+
+    var hudLinks = Array.prototype.slice.call(document.querySelectorAll('.section-hud a'));
+    if (hudLinks.length) {
+      hudLinks[0].classList.add('is-active');
+      if ('IntersectionObserver' in window) {
+        var sectionObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            hudLinks.forEach(function (link) {
+              link.classList.toggle('is-active', link.getAttribute('data-section') === entry.target.id);
+            });
+          });
+        }, { rootMargin: '-28% 0px -58% 0px', threshold: 0 });
+
+        ['about', 'interests', 'publications'].forEach(function (id) {
+          var section = document.getElementById(id);
+          if (section) sectionObserver.observe(section);
+        });
+      }
+    }
 
     // Cursor spotlight inside hero and publication cards
     function bindSpotlight(selector) {
