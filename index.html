@@ -494,14 +494,14 @@
     opacity: 1;
     transform: scale(1);
   }
-  .photo-ring img.is-active.avatar-orea {
+  .photo-ring img.is-active.avatar-oreo {
     transform: scale(1.24);
     transform-origin: 50% 66%;
   }
   .photo-ring img.is-active.avatar-nine {
     transform: scale(1.08);
   }
-  .photo-ring img.is-active.avatar-wangzai {
+  .photo-ring img.is-active.avatar-felix {
     transform: scale(1.12);
     transform-origin: 50% 45%;
   }
@@ -509,9 +509,9 @@
     pointer-events: none;
   }
   .avatar-xin { object-position: center 50%; }
-  .avatar-orea { object-position: center 54%; }
+  .avatar-oreo { object-position: center 54%; }
   .avatar-nine { object-position: center 48%; }
-  .avatar-wangzai { object-position: center 38%; }
+  .avatar-felix { object-position: center 38%; }
 
   .sidebar-name {
     font-family: var(--disp);
@@ -699,169 +699,6 @@
     box-shadow: 0 0 18px rgba(63, 233, 255, 0.12);
   }
 
-  /* Publication constellation */
-  .pub-constellation {
-    position: relative;
-    margin: -2px 0 16px;
-    border-top: 1px solid rgba(63, 233, 255, 0.06);
-    border-bottom: 1px solid rgba(63, 233, 255, 0.06);
-    background:
-      linear-gradient(90deg, rgba(63, 233, 255, 0.018), transparent 25%, transparent 75%, rgba(116, 255, 184, 0.014)),
-      radial-gradient(ellipse at 50% 50%, rgba(63, 233, 255, 0.035), transparent 68%);
-  }
-  .pub-map-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 8px;
-    font-family: var(--mono);
-    font-size: 8px;
-    color: rgba(148, 167, 191, 0.68);
-    letter-spacing: 0.7px;
-  }
-  .pub-map { position: relative; height: 104px; }
-  .pub-map svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: visible;
-  }
-  .pub-map .map-line {
-    fill: none;
-    stroke: rgba(127, 246, 255, 0.16);
-    stroke-width: 0.7;
-    vector-effect: non-scaling-stroke;
-  }
-  .pub-map .map-trace {
-    fill: none;
-    stroke: rgba(116, 255, 184, 0.58);
-    stroke-width: 0.8;
-    stroke-dasharray: 3 13;
-    vector-effect: non-scaling-stroke;
-    animation: pubTrace 8s linear infinite;
-  }
-  .pub-node {
-    --node-color: 63, 233, 255;
-    position: absolute;
-    z-index: 2;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    color: rgb(var(--node-color));
-    text-decoration: none;
-    transform: translate(-50%, -50%);
-  }
-  .pub-node-core {
-    position: absolute;
-    inset: 9px;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(var(--node-color), 0.7);
-    border-radius: 50%;
-    background: rgba(5, 11, 19, 0.92);
-    box-shadow:
-      0 0 7px rgba(var(--node-color), 0.42),
-      inset 0 0 5px rgba(var(--node-color), 0.2);
-    font-family: var(--mono);
-    font-size: 6.5px;
-    font-weight: 600;
-    transition: inset 0.18s, border-color 0.18s, box-shadow 0.18s;
-  }
-  .pub-node::before {
-    content: "";
-    position: absolute;
-    inset: 3px;
-    border: 1px solid rgba(var(--node-color), 0.18);
-    border-radius: 50%;
-    transition: inset 0.18s, border-color 0.18s, transform 0.3s;
-  }
-  .pub-node:hover::before,
-  .pub-node:focus-visible::before {
-    inset: 0;
-    border-color: rgba(var(--node-color), 0.65);
-    transform: rotate(45deg);
-  }
-  .pub-node:hover .pub-node-core,
-  .pub-node:focus-visible .pub-node-core {
-    inset: 7px;
-    border-color: rgb(var(--node-color));
-    box-shadow:
-      0 0 12px rgba(var(--node-color), 0.72),
-      inset 0 0 7px rgba(var(--node-color), 0.3);
-  }
-  .pub-node:focus-visible { outline: none; }
-  .pub-node-label {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 4px);
-    width: 220px;
-    padding: 7px 9px;
-    border: 1px solid rgba(var(--node-color), 0.28);
-    border-radius: 4px;
-    background: rgba(5, 10, 18, 0.96);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34);
-    color: var(--text-dim);
-    font-size: 9.5px;
-    line-height: 1.45;
-    opacity: 0;
-    transform: translate(-50%, 5px);
-    pointer-events: none;
-    transition: opacity 0.18s, transform 0.18s;
-  }
-  .pub-node-label b {
-    display: block;
-    margin-bottom: 2px;
-    color: rgb(var(--node-color));
-    font-family: var(--mono);
-    font-size: 8px;
-    font-weight: 500;
-  }
-  .pub-node:hover .pub-node-label,
-  .pub-node:focus-visible .pub-node-label {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-  .pub-node.label-left .pub-node-label {
-    left: auto;
-    right: 0;
-    transform: translateY(5px);
-  }
-  .pub-node.label-left:hover .pub-node-label,
-  .pub-node.label-left:focus-visible .pub-node-label {
-    transform: none;
-  }
-  .pub-node.label-right .pub-node-label {
-    left: 0;
-    transform: translateY(5px);
-  }
-  .pub-node.label-right:hover .pub-node-label,
-  .pub-node.label-right:focus-visible .pub-node-label {
-    transform: none;
-  }
-  .pub-node.label-below .pub-node-label {
-    top: calc(100% + 4px);
-    bottom: auto;
-    transform: translate(-50%, -5px);
-  }
-  .pub-node.label-below:hover .pub-node-label,
-  .pub-node.label-below:focus-visible .pub-node-label {
-    transform: translate(-50%, 0);
-  }
-  .node-aaai { --node-color: 116, 255, 184; }
-  .node-cvpr { --node-color: 63, 233, 255; }
-  .node-tdsc { --node-color: 183, 140, 255; }
-  .node-ijcv { --node-color: 255, 200, 97; }
-  .node-tip { --node-color: 127, 246, 255; }
-  .node-bmvc { --node-color: 255, 94, 168; }
-  .node-1 { left: 8%; top: 64%; }
-  .node-2 { left: 20%; top: 32%; }
-  .node-3 { left: 34%; top: 70%; }
-  .node-4 { left: 48%; top: 34%; }
-  .node-5 { left: 61%; top: 69%; }
-  .node-6 { left: 74%; top: 29%; }
-  .node-7 { left: 88%; top: 62%; }
-
   /* Publications */
   .pub-list { display: flex; flex-direction: column; gap: 10px; }
   .pub-item {
@@ -1004,9 +841,6 @@
 
   /* Animation */
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pubTrace {
-    to { stroke-dashoffset: -96; }
-  }
   @keyframes signalJitter {
     0%, 100% { transform: none; }
     32% { transform: translate(1px, -0.5px); }
@@ -1089,11 +923,6 @@
     .pub-authors { font-size: 11.5px; }
     .pub-venue { font-size: 10px; }
     .pub-badge { padding: 2px 6px; font-size: 9px; }
-    .pub-map { height: 88px; }
-    .pub-map-head { font-size: 7px; }
-    .pub-node { width: 30px; height: 30px; }
-    .pub-node-core { inset: 8px; font-size: 6px; }
-    .pub-node-label { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1152,9 +981,9 @@
       <span class="warp-orbit warp-orbit-b" aria-hidden="true"></span>
       <div class="avatar-window">
         <img class="avatar-frame avatar-xin is-active" data-name="Xin TIAN" data-role="SENIOR RESEARCHER" data-affiliation="Huawei Hisilicon" data-palette="59,169,247|241,220,95|126,166,252" src="images/photo.jpg" alt="Portrait of Xin TIAN" loading="eager" decoding="async">
-        <img class="avatar-frame avatar-orea" data-name="Orea" data-role="SENIOR FOODIE CAT" data-affiliation="Snack &amp; Treat Academy" data-palette="220,176,86|181,219,118|238,232,140" src="images/avatar/orea.jpg" alt="Orea, a food-loving blue and white cat" loading="eager" decoding="async" aria-hidden="true">
+        <img class="avatar-frame avatar-oreo" data-name="Oreo" data-role="SENIOR FOODIE CAT" data-affiliation="Snack &amp; Treat Academy" data-palette="220,176,86|181,219,118|238,232,140" src="images/avatar/oreo.jpg" alt="Oreo, a food-loving blue and white cat" loading="eager" decoding="async" aria-hidden="true">
         <img class="avatar-frame avatar-nine" data-name="Nine" data-role="SENIOR WELL-BEHAVED CAT" data-affiliation="School of Good Manners" data-palette="222,164,84|118,116,220|239,223,138" src="images/avatar/nine.jpg" alt="Nine, a well-behaved long-haired cat" loading="eager" decoding="async" aria-hidden="true">
-        <img class="avatar-frame avatar-wangzai" data-name="Wangzai" data-role="SENIOR MISCHIEVOUS CAT" data-affiliation="Household Mischief Bureau" data-palette="227,168,79|225,126,112|242,228,135" src="images/avatar/wangzai.jpg" alt="Wangzai, a mischievous tabby cat" loading="eager" decoding="async" aria-hidden="true">
+        <img class="avatar-frame avatar-felix" data-name="Felix" data-role="SENIOR MISCHIEVOUS CAT" data-affiliation="Household Mischief Bureau" data-palette="227,168,79|225,126,112|242,228,135" src="images/avatar/felix.jpg" alt="Felix, a mischievous tabby cat" loading="eager" decoding="async" aria-hidden="true">
       </div>
     </div>
 
@@ -1229,51 +1058,6 @@
         <span class="section-rule"></span>
         <span class="section-count">07</span>
       </div>
-
-      <nav class="pub-constellation" aria-label="Publication constellation">
-        <div class="pub-map-head">
-          <span>PUBLICATION CONSTELLATION</span>
-          <span>07 LINKED SIGNALS</span>
-        </div>
-        <div class="pub-map">
-          <svg viewBox="0 0 640 104" preserveAspectRatio="none" aria-hidden="true">
-            <path class="map-line" d="M51 67 L128 33 L218 73 L307 35 L390 72 L474 30 L563 64"/>
-            <path class="map-line" d="M51 67 L218 73 L390 72 L563 64"/>
-            <path class="map-line" d="M128 33 L307 35 L474 30"/>
-            <path class="map-line" d="M128 33 L390 72 L474 30 L218 73"/>
-            <path class="map-trace" d="M51 67 L128 33 L218 73 L307 35 L390 72 L474 30 L563 64"/>
-          </svg>
-
-          <a class="pub-node node-aaai node-1 label-right" href="https://ojs.aaai.org/index.php/AAAI/article/view/38023" target="_blank" rel="noopener" aria-label="AAAI 2026: Video Mirror Detection with the Motion-in-Depth Cue" title="AAAI 2026 — Video Mirror Detection with the Motion-in-Depth Cue">
-            <span class="pub-node-core">01</span>
-            <span class="pub-node-label"><b>AAAI '26</b>Video Mirror Detection with the Motion-in-Depth Cue</span>
-          </a>
-          <a class="pub-node node-cvpr node-2 label-below" href="https://openaccess.thecvf.com/content/CVPR2024/html/Tian_Unsupervised_Salient_Instance_Detection_CVPR_2024_paper.html" target="_blank" rel="noopener" aria-label="CVPR 2024: Unsupervised Salient Instance Detection" title="CVPR 2024 — Unsupervised Salient Instance Detection">
-            <span class="pub-node-core">02</span>
-            <span class="pub-node-label"><b>CVPR '24</b>Unsupervised Salient Instance Detection</span>
-          </a>
-          <a class="pub-node node-tdsc node-3" href="https://ieeexplore.ieee.org/document/10444929/" target="_blank" rel="noopener" aria-label="TDSC 2024: Reverse Backdoor Distillation" title="TDSC 2024 — Reverse Backdoor Distillation">
-            <span class="pub-node-core">03</span>
-            <span class="pub-node-label"><b>TDSC '24</b>Reverse Backdoor Distillation</span>
-          </a>
-          <a class="pub-node node-cvpr node-4 label-below" href="https://openaccess.thecvf.com/content/CVPR2022/html/Tian_Bi-Directional_Object-Context_Prioritization_Learning_for_Saliency_Ranking_CVPR_2022_paper.html" target="_blank" rel="noopener" aria-label="CVPR 2022: Bi-directional Object-context Prioritization Learning for Saliency Ranking" title="CVPR 2022 — Bi-directional Object-context Prioritization Learning for Saliency Ranking">
-            <span class="pub-node-core">04</span>
-            <span class="pub-node-label"><b>CVPR '22</b>Bi-directional Object-context Prioritization Learning for Saliency Ranking</span>
-          </a>
-          <a class="pub-node node-ijcv node-5" href="https://link.springer.com/article/10.1007/s11263-021-01553-w" target="_blank" rel="noopener" aria-label="IJCV 2022: Learning to Detect Instance-level Salient Objects using Complementary Image Labels" title="IJCV 2022 — Learning to Detect Instance-level Salient Objects">
-            <span class="pub-node-core">05</span>
-            <span class="pub-node-label"><b>IJCV '22</b>Learning to Detect Instance-level Salient Objects</span>
-          </a>
-          <a class="pub-node node-tip node-6 label-below" href="https://ieeexplore.ieee.org/document/9565368/" target="_blank" rel="noopener" aria-label="TIP 2021: Intensity-Aware Single-Image Deraining With Semantic and Color Regularization" title="TIP 2021 — Intensity-Aware Single-Image Deraining">
-            <span class="pub-node-core">06</span>
-            <span class="pub-node-label"><b>TIP '21</b>Intensity-Aware Single-Image Deraining With Semantic and Color Regularization</span>
-          </a>
-          <a class="pub-node node-bmvc node-7 label-left" href="https://www.bmva-archive.org.uk/bmvc/2020/conference/papers/paper_0430.html" target="_blank" rel="noopener" aria-label="BMVC 2020: Weakly-supervised Salient Instance Detection" title="BMVC 2020 — Weakly-supervised Salient Instance Detection">
-            <span class="pub-node-core">07</span>
-            <span class="pub-node-label"><b>BMVC '20 · ORAL · RUNNER-UP</b>Weakly-supervised Salient Instance Detection</span>
-          </a>
-        </div>
-      </nav>
 
       <div class="pub-list">
 
