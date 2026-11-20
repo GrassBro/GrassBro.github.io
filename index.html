@@ -358,6 +358,164 @@
     opacity: 1;
   }
 
+  /* Ambient network packets */
+  #network-packets {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .packet-rail {
+    position: absolute;
+    top: 8vh;
+    bottom: 8vh;
+    width: 230px;
+    opacity: 0.62;
+  }
+  .packet-rail.left { left: 0; }
+  .packet-rail.right { right: 0; transform: scaleX(-1); }
+  .packet-rail path {
+    fill: none;
+    stroke: rgba(127, 246, 255, 0.1);
+    stroke-width: 0.75;
+    vector-effect: non-scaling-stroke;
+  }
+  .packet-rail path.packet-flow {
+    stroke: rgba(var(--packet-color, 116, 255, 184), 0.8);
+    stroke-width: 1.15;
+    stroke-linecap: round;
+    stroke-dasharray: 2 38;
+    animation: packetFlow 7s linear infinite;
+  }
+  .packet-rail path:nth-child(2) { animation-delay: -2.4s; }
+  .packet-rail path:nth-child(3) { animation-delay: -4.8s; }
+
+  /* Sector transition */
+  #sector-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    pointer-events: none;
+    opacity: 0;
+  }
+  #sector-transition::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 0 42%, rgba(63, 233, 255, 0.11) 49%, rgba(116, 255, 184, 0.16) 50%, transparent 51% 100%);
+    transform: translateY(-100%);
+  }
+  #sector-transition.is-active { animation: sectorFade 0.48s ease-out; }
+  #sector-transition.is-active::before { animation: sectorSweep 0.48s cubic-bezier(0.16, 0.84, 0.24, 1); }
+  .sector-readout {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    padding: 4px 9px;
+    border-left: 1px solid var(--cyan);
+    background: rgba(5, 10, 18, 0.76);
+    color: var(--cyan-2);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    transform: translateX(-50%);
+  }
+
+  /* Research coordinates */
+  .coord-readout {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 40;
+    display: grid;
+    gap: 3px;
+    padding-left: 9px;
+    border-left: 1px solid rgba(63, 233, 255, 0.26);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    line-height: 1.35;
+    color: rgba(148, 167, 191, 0.6);
+    text-align: right;
+    letter-spacing: 0.55px;
+    pointer-events: none;
+  }
+  .coord-readout span:first-child { color: var(--cyan); }
+
+  /* Holo reticle */
+  #cursor-reticle {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 80;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.12s ease;
+    will-change: transform;
+  }
+  #cursor-reticle.is-on { opacity: 1; }
+  .reticle-corner {
+    position: absolute;
+    width: 7px;
+    height: 7px;
+    border-color: var(--green);
+    border-style: solid;
+  }
+  .reticle-tl { top: 0; left: 0; border-width: 1px 0 0 1px; }
+  .reticle-tr { top: 0; right: 0; border-width: 1px 1px 0 0; }
+  .reticle-bl { bottom: 0; left: 0; border-width: 0 0 1px 1px; }
+  .reticle-br { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+  .reticle-label {
+    position: absolute;
+    left: 35px;
+    top: -1px;
+    padding: 2px 6px;
+    border: 1px solid rgba(116, 255, 184, 0.26);
+    border-radius: 2px;
+    background: rgba(5, 10, 18, 0.9);
+    color: rgba(116, 255, 184, 0.88);
+    font-family: var(--mono);
+    font-size: 7px;
+    letter-spacing: 0.65px;
+    white-space: nowrap;
+  }
+
+  /* Cat protocol */
+  #cat-toast {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    z-index: 72;
+    padding: 7px 10px;
+    border: 1px solid rgba(116, 255, 184, 0.35);
+    border-left: 2px solid var(--green);
+    border-radius: 3px;
+    background: rgba(5, 11, 19, 0.94);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.8px;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  body.cat-protocol #cat-toast {
+    opacity: 1;
+    transform: none;
+  }
+  body.cat-protocol .photo-ring::before {
+    animation-duration: 4s;
+  }
+  body.cat-protocol .section-hud a.is-active .hud-dot {
+    background: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 9px rgba(255, 200, 97, 0.8);
+  }
+
   /* ── Sidebar ── */
   .sidebar {
     width: var(--sidebar);
@@ -757,6 +915,19 @@
     transition: opacity 0.25s;
     z-index: 0;
   }
+  .pub-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    z-index: 2;
+    background: linear-gradient(90deg, transparent, rgba(116, 255, 184, 0.74), transparent);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pub-item:hover::after { animation: publicationScan 1.15s ease-out 1; }
   .pub-item:hover::before { opacity: 1; }
   .pub-item:hover {
     border-left-color: var(--cyan);
@@ -821,6 +992,71 @@
     text-shadow: 1px 0 rgba(255, 94, 168, 0.34), -1px 0 rgba(63, 233, 255, 0.38);
     animation: signalJitter 0.22s steps(2, end) 1;
   }
+  .pub-telemetry {
+    margin-top: 7px;
+    border-top: 1px dashed rgba(127, 246, 255, 0.14);
+    font-family: var(--mono);
+  }
+  .pub-telemetry summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: fit-content;
+    padding: 5px 0 2px;
+    color: rgba(127, 246, 255, 0.72);
+    font-size: 8px;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+    list-style: none;
+  }
+  .pub-telemetry summary::-webkit-details-marker { display: none; }
+  .pub-telemetry summary::after {
+    content: "[ + ]";
+    color: rgba(148, 167, 191, 0.54);
+  }
+  .pub-telemetry[open] summary::after { content: "[ - ]"; }
+  .telemetry-body {
+    display: grid;
+    gap: 5px;
+    padding: 7px 0 2px;
+  }
+  .telemetry-row {
+    display: grid;
+    grid-template-columns: 66px minmax(0, 1fr);
+    gap: 9px;
+    color: var(--text-dim);
+    font-family: var(--body);
+    font-size: 11px;
+    line-height: 1.55;
+  }
+  .telemetry-row b {
+    color: rgba(116, 255, 184, 0.8);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    font-weight: 500;
+    letter-spacing: 0.55px;
+  }
+  .copy-doi {
+    justify-self: start;
+    min-height: 22px;
+    margin-top: 3px;
+    padding: 0 8px;
+    border: 1px solid rgba(255, 200, 97, 0.26);
+    border-radius: 3px;
+    background: rgba(255, 200, 97, 0.04);
+    color: rgba(255, 200, 97, 0.84);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.55px;
+    cursor: pointer;
+  }
+  .copy-doi:hover,
+  .copy-doi:focus-visible {
+    border-color: rgba(255, 200, 97, 0.62);
+    color: var(--amber);
+    outline: none;
+  }
   .pub-badge {
     display: inline-block;
     font-family: var(--mono);
@@ -873,6 +1109,22 @@
 
   /* Animation */
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes packetFlow {
+    to { stroke-dashoffset: -240; }
+  }
+  @keyframes sectorFade {
+    0%, 100% { opacity: 0; }
+    12%, 72% { opacity: 1; }
+  }
+  @keyframes sectorSweep {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(100%); }
+  }
+  @keyframes publicationScan {
+    0% { top: 0; opacity: 0; }
+    12% { opacity: 0.75; }
+    100% { top: 100%; opacity: 0; }
+  }
   @keyframes meteorFlight {
     0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(24deg) scaleX(0.5); }
     14% { opacity: 0.9; }
@@ -932,6 +1184,9 @@
   }
   @media (max-width: 1100px) {
     .section-hud { display: none; }
+    .coord-readout,
+    #cursor-reticle,
+    #network-packets { display: none; }
   }
   @media (max-width: 920px) {
     #motif-layer {
@@ -968,6 +1223,7 @@
     .pub-authors { font-size: 11.5px; }
     .pub-venue { font-size: 10px; }
     .pub-badge { padding: 2px 6px; font-size: 9px; }
+    .telemetry-row { grid-template-columns: 58px minmax(0, 1fr); font-size: 10.5px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -985,7 +1241,41 @@
 <div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
 <div id="motif-layer" aria-hidden="true"></div>
 <div id="effects-field" aria-hidden="true"></div>
+<div id="network-packets" aria-hidden="true">
+  <svg class="packet-rail left" viewBox="0 0 230 1000" preserveAspectRatio="none">
+    <path d="M-10 155 L62 155 L104 113 L178 113 L208 142 L245 142"/>
+    <path class="packet-flow" d="M-10 155 L62 155 L104 113 L178 113 L208 142 L245 142"/>
+    <path d="M-8 390 L54 390 L102 438 L170 438 L210 400"/>
+    <path class="packet-flow" d="M-8 390 L54 390 L102 438 L170 438 L210 400"/>
+    <path d="M-10 680 L72 680 L110 646 L180 646 L223 610"/>
+    <path class="packet-flow" d="M-10 680 L72 680 L110 646 L180 646 L223 610"/>
+  </svg>
+  <svg class="packet-rail right" viewBox="0 0 230 1000" preserveAspectRatio="none">
+    <path d="M-10 205 L67 205 L112 165 L178 165 L240 205"/>
+    <path class="packet-flow" d="M-10 205 L67 205 L112 165 L178 165 L240 205"/>
+    <path d="M-8 430 L55 430 L95 470 L164 470 L218 432"/>
+    <path class="packet-flow" d="M-8 430 L55 430 L95 470 L164 470 L218 432"/>
+    <path d="M-10 745 L66 745 L110 710 L174 710 L236 750"/>
+    <path class="packet-flow" d="M-10 745 L66 745 L110 710 L174 710 L236 750"/>
+  </svg>
+</div>
 <div id="cursor-glow" aria-hidden="true"></div>
+<div id="sector-transition" aria-hidden="true">
+  <span class="sector-readout" id="sectorReadout">SECTOR 01 // ABOUT</span>
+</div>
+<div id="cursor-reticle" aria-hidden="true">
+  <span class="reticle-corner reticle-tl"></span>
+  <span class="reticle-corner reticle-tr"></span>
+  <span class="reticle-corner reticle-bl"></span>
+  <span class="reticle-corner reticle-br"></span>
+  <span class="reticle-label" id="reticleLabel">OPEN</span>
+</div>
+<div class="coord-readout" aria-hidden="true">
+  <span id="coordSection">SEC.01 // PROFILE</span>
+  <span id="coordMeta">CV · MM</span>
+  <span id="coordStatus">SCROLL 000%</span>
+</div>
+<div id="cat-toast" aria-hidden="true">CAT_PROTOCOL // COMPANIONS ONLINE</div>
 
 <nav class="section-hud" aria-label="Section navigation">
   <a href="#about" data-section="about" aria-label="Go to About">
@@ -1351,6 +1641,186 @@
 
 <script>
   (function () {
+    var telemetry = [
+      {
+        problem: 'Mirror regions preserve strong motion and depth discontinuities across video frames.',
+        method: 'Three-frame RGB, depth and scene-flow inputs; 16-D motion encoding with cross-modal QKV fusion.',
+        result: 'Motion-in-depth cues improve robust video mirror segmentation.',
+        doi: '10.1609/aaai.v40i13.38023'
+      },
+      {
+        problem: 'Detect salient object instances without manual mask or box annotations.',
+        method: 'A frozen self-supervised Transformer plus global background adaptation and local consistency contrast.',
+        result: 'Unsupervised salient instance detection with region-level separation.',
+        doi: '10.1109/CVPR52733.2024.00261'
+      },
+      {
+        problem: 'Identify hidden backdoor behavior in deployed deep neural networks.',
+        method: 'Reverse backdoor distillation with model-response analysis for online detection.',
+        result: 'Backdoor attack detection without an offline retraining stage.',
+        doi: '10.1109/TDSC.2024.3369751'
+      },
+      {
+        problem: 'Rank salient instances according to their relative visual importance.',
+        method: 'Bi-directional object-context prioritization with dedicated ranking and mask prediction heads.',
+        result: 'Context-aware saliency ranking with instance-level structure.',
+        doi: '10.1109/CVPR52688.2022.00579'
+      },
+      {
+        problem: 'Learn instance-level salient objects from complementary weak image labels.',
+        method: 'Cross-layer attention and progressive pseudo-label training across saliency, boundary and centroid cues.',
+        result: 'Weakly supervised instance saliency with improved localization.',
+        doi: '10.1007/s11263-021-01553-w'
+      },
+      {
+        problem: 'Remove rain streaks while preserving semantic structure and color fidelity.',
+        method: 'Intensity-aware deraining with semantic and color regularization.',
+        result: 'Cleaner rain removal with better color consistency.',
+        doi: '10.1109/TIP.2021.3116794'
+      },
+      {
+        problem: 'Recover salient instance masks using only weak supervision.',
+        method: 'Saliency, boundary and centroid branches fused through pseudo-label feedback.',
+        result: 'Accurate instance masks; BMVC Oral and Best Student Paper Runner-up.',
+        doi: '10.5244/C.34.111'
+      }
+    ];
+
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      return new Promise(function (resolve, reject) {
+        var input = document.createElement('textarea');
+        input.value = text;
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        try {
+          document.execCommand('copy') ? resolve() : reject(new Error('copy failed'));
+        } catch (error) {
+          reject(error);
+        } finally {
+          input.remove();
+        }
+      });
+    }
+
+    document.querySelectorAll('.pub-item').forEach(function (item, index) {
+      var data = telemetry[index];
+      var body = item.querySelector('.pub-body');
+      if (!data || !body) return;
+      var details = document.createElement('details');
+      details.className = 'pub-telemetry';
+      details.innerHTML =
+        '<summary><span>BRIEF // PAPER TELEMETRY</span><span>RECORD 0' + (index + 1) + '</span></summary>' +
+        '<div class="telemetry-body">' +
+        '<div class="telemetry-row"><b>PROBLEM</b><span>' + data.problem + '</span></div>' +
+        '<div class="telemetry-row"><b>METHOD</b><span>' + data.method + '</span></div>' +
+        '<div class="telemetry-row"><b>RESULT</b><span>' + data.result + '</span></div>' +
+        '<button class="copy-doi" type="button">COPY DOI // ' + data.doi + '</button>' +
+        '</div>';
+      body.appendChild(details);
+
+      details.addEventListener('pointerenter', function () { details.open = true; });
+      details.addEventListener('pointerleave', function () {
+        if (details.dataset.manual !== 'true') details.open = false;
+      });
+      details.querySelector('summary').addEventListener('click', function (event) {
+        event.preventDefault();
+        var manual = details.dataset.manual !== 'true';
+        details.dataset.manual = manual ? 'true' : 'false';
+        details.open = manual;
+      });
+      details.querySelector('.copy-doi').addEventListener('click', function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var button = event.currentTarget;
+        copyText(data.doi).then(function () {
+          var oldText = button.textContent;
+          button.textContent = 'DOI COPIED';
+          setTimeout(function () { button.textContent = oldText; }, 1200);
+        }).catch(function () {
+          button.textContent = 'COPY FAILED';
+        });
+      });
+    });
+
+    var reticle = document.getElementById('cursor-reticle');
+    var reticleLabel = document.getElementById('reticleLabel');
+    var reticlePosition = null;
+    var reticleTarget = { x: -100, y: -100 };
+    if (reticle && window.matchMedia('(hover: hover)').matches) {
+      function reticleLabelFor(element) {
+        if (element.classList.contains('copy-doi')) return 'COPY DOI';
+        if (element.tagName === 'SUMMARY') return 'EXPAND DATA';
+        if (element.classList.contains('pub-title')) return 'OPEN PAPER';
+        if (element.classList.contains('pub-link')) return 'OPEN RESOURCE';
+        if (element.closest('.section-hud')) return 'NAVIGATE';
+        if (element.href && element.href.indexOf('mailto:') === 0) return 'COMPOSE MAIL';
+        if (element.href && element.href.indexOf('github.com') !== -1) return 'GITHUB PROFILE';
+        if (element.href && element.href.indexOf('scholar.google') !== -1) return 'SCHOLAR PROFILE';
+        return 'OPEN LINK';
+      }
+
+      function updateReticle() {
+        reticlePosition = null;
+        reticle.style.transform = 'translate3d(' + reticleTarget.x + 'px,' + reticleTarget.y + 'px,0)';
+      }
+
+      window.addEventListener('pointermove', function (event) {
+        if (event.pointerType !== 'mouse') return;
+        reticleTarget.x = event.clientX + 2;
+        reticleTarget.y = event.clientY + 2;
+        if (!reticlePosition) reticlePosition = requestAnimationFrame(updateReticle);
+      }, { passive: true });
+
+      document.addEventListener('pointerover', function (event) {
+        var target = event.target.closest('a, button, summary');
+        if (!target) {
+          reticle.classList.remove('is-on');
+          return;
+        }
+        reticleLabel.textContent = reticleLabelFor(target);
+        reticle.classList.add('is-on');
+      });
+
+      document.documentElement.addEventListener('pointerleave', function () {
+        reticle.classList.remove('is-on');
+      });
+    }
+
+    var catBuffer = '';
+    var catTimer = null;
+    var catActive = false;
+    var topStatus = document.querySelector('.topnav-status');
+    var originalStatus = topStatus ? topStatus.textContent : '';
+
+    function setCatProtocol(active) {
+      catActive = active;
+      document.body.classList.toggle('cat-protocol', active);
+      if (topStatus) topStatus.textContent = active ? 'CAT_PROTOCOL' : originalStatus;
+      document.dispatchEvent(new CustomEvent('catprotocol', { detail: { active: active } }));
+      if (catTimer) clearTimeout(catTimer);
+      if (active) {
+        catTimer = setTimeout(function () { setCatProtocol(false); }, 9000);
+      }
+    }
+
+    window.addEventListener('keydown', function (event) {
+      var target = event.target;
+      if (target && (target.matches('input, textarea, select') || target.isContentEditable)) return;
+      catBuffer = (catBuffer + event.key.toLowerCase()).slice(-4);
+      if (catBuffer !== 'meow') return;
+      catBuffer = '';
+      if (!catActive) setCatProtocol(true);
+    });
+  })();
+</script>
+
+<script>
+  (function () {
     var ring = document.querySelector('.photo-ring');
     var frames = Array.prototype.slice.call(document.querySelectorAll('.avatar-frame'));
     var nameEl = document.querySelector('.sidebar-name');
@@ -1568,6 +2038,11 @@
       if (document.hidden) stop();
       else start();
     });
+    document.addEventListener('catprotocol', function (event) {
+      stop();
+      show(event.detail && event.detail.active ? 1 : 0);
+      start();
+    });
 
     if (frames[0].complete) applyRingPalette(frames[0]);
     else frames[0].addEventListener('load', function () { applyRingPalette(frames[0]); }, { once: true });
@@ -1581,6 +2056,37 @@
     // Scroll progress bar
     var bar = document.getElementById('scrollBar');
     var hud = document.querySelector('.section-hud');
+    var coordSection = document.getElementById('coordSection');
+    var coordMeta = document.getElementById('coordMeta');
+    var coordStatus = document.getElementById('coordStatus');
+    var sectorTransition = document.getElementById('sector-transition');
+    var sectorReadout = document.getElementById('sectorReadout');
+    var currentSection = '';
+    var sectorTimer = null;
+    var hudLinks = [];
+    var sectionData = {
+      about: { line: 'SEC.01 // PROFILE', meta: 'CV · MM', readout: 'SECTOR 01 // ABOUT' },
+      interests: { line: 'SEC.02 // FIELD', meta: 'CV · DL · MM', readout: 'SECTOR 02 // RESEARCH' },
+      publications: { line: 'SEC.03 // PAPERS', meta: '2020—2026 · 07', readout: 'SECTOR 03 // PUBLICATIONS' }
+    };
+
+    function activateSection(id, immediate) {
+      if (!sectionData[id] || currentSection === id) return;
+      currentSection = id;
+      if (coordSection) coordSection.textContent = sectionData[id].line;
+      if (coordMeta) coordMeta.textContent = sectionData[id].meta;
+      if (sectorReadout) sectorReadout.textContent = sectionData[id].readout;
+      if (sectorTransition && !immediate) {
+        if (sectorTimer) clearTimeout(sectorTimer);
+        sectorTransition.classList.remove('is-active');
+        void sectorTransition.offsetWidth;
+        sectorTransition.classList.add('is-active');
+        sectorTimer = setTimeout(function () {
+          sectorTransition.classList.remove('is-active');
+        }, 520);
+      }
+    }
+
     var progressFrame = null;
     function updateProgress() {
       if (!bar) return;
@@ -1589,6 +2095,8 @@
       var ratio = max > 0 ? (doc.scrollTop || window.pageYOffset || 0) / max : 0;
       bar.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
       if (hud) hud.style.setProperty('--hud-progress', ratio.toFixed(4));
+      if (coordStatus) coordStatus.textContent = 'SCROLL ' + String(Math.round(ratio * 100)).padStart(3, '0') + '%';
+      updateActiveSection();
     }
     function scheduleProgress() {
       if (progressFrame) return;
@@ -1601,25 +2109,32 @@
     window.addEventListener('resize', scheduleProgress);
     updateProgress();
 
-    var hudLinks = Array.prototype.slice.call(document.querySelectorAll('.section-hud a'));
+    function updateActiveSection() {
+      if (!hudLinks.length) return;
+      var marker = window.innerHeight * 0.38;
+      var active = 'about';
+      ['about', 'interests', 'publications'].forEach(function (id) {
+        var section = document.getElementById(id);
+        if (section && section.getBoundingClientRect().top <= marker) active = id;
+      });
+      hudLinks.forEach(function (link) {
+        link.classList.toggle('is-active', link.getAttribute('data-section') === active);
+      });
+      activateSection(active);
+    }
+
+    hudLinks = Array.prototype.slice.call(document.querySelectorAll('.section-hud a'));
     if (hudLinks.length) {
       hudLinks[0].classList.add('is-active');
-      if ('IntersectionObserver' in window) {
-        var sectionObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            hudLinks.forEach(function (link) {
-              link.classList.toggle('is-active', link.getAttribute('data-section') === entry.target.id);
-            });
-          });
-        }, { rootMargin: '-28% 0px -58% 0px', threshold: 0 });
-
-        ['about', 'interests', 'publications'].forEach(function (id) {
-          var section = document.getElementById(id);
-          if (section) sectionObserver.observe(section);
-        });
-      }
+      activateSection('about', true);
+      updateActiveSection();
     }
+
+    hudLinks.forEach(function (link) {
+      link.addEventListener('click', function () {
+        activateSection(link.getAttribute('data-section'));
+      });
+    });
 
     // Cursor spotlight inside hero and publication cards
     function bindSpotlight(selector) {
