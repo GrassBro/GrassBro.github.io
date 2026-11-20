@@ -391,37 +391,6 @@
   .packet-rail path:nth-child(2) { animation-delay: -2.4s; }
   .packet-rail path:nth-child(3) { animation-delay: -4.8s; }
 
-  /* Sector transition */
-  #sector-transition {
-    position: fixed;
-    inset: 0;
-    z-index: 70;
-    pointer-events: none;
-    opacity: 0;
-  }
-  #sector-transition::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 0 42%, rgba(63, 233, 255, 0.11) 49%, rgba(116, 255, 184, 0.16) 50%, transparent 51% 100%);
-    transform: translateY(-100%);
-  }
-  #sector-transition.is-active { animation: sectorFade 0.48s ease-out; }
-  #sector-transition.is-active::before { animation: sectorSweep 0.48s cubic-bezier(0.16, 0.84, 0.24, 1); }
-  .sector-readout {
-    position: absolute;
-    left: 50%;
-    top: 18%;
-    padding: 4px 9px;
-    border-left: 1px solid var(--cyan);
-    background: rgba(5, 10, 18, 0.76);
-    color: var(--cyan-2);
-    font-family: var(--mono);
-    font-size: 8px;
-    letter-spacing: 0.8px;
-    transform: translateX(-50%);
-  }
-
   /* Research coordinates */
   .coord-readout {
     position: fixed;
@@ -1021,6 +990,15 @@
     gap: 5px;
     padding: 7px 0 2px;
   }
+  .telemetry-disclaimer {
+    padding: 5px 7px;
+    border-left: 2px solid var(--amber);
+    background: rgba(255, 200, 97, 0.045);
+    color: rgba(255, 200, 97, 0.76);
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.45px;
+  }
   .telemetry-row {
     display: grid;
     grid-template-columns: 66px minmax(0, 1fr);
@@ -1111,14 +1089,6 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes packetFlow {
     to { stroke-dashoffset: -240; }
-  }
-  @keyframes sectorFade {
-    0%, 100% { opacity: 0; }
-    12%, 72% { opacity: 1; }
-  }
-  @keyframes sectorSweep {
-    from { transform: translateY(-100%); }
-    to { transform: translateY(100%); }
   }
   @keyframes publicationScan {
     0% { top: 0; opacity: 0; }
@@ -1260,9 +1230,6 @@
   </svg>
 </div>
 <div id="cursor-glow" aria-hidden="true"></div>
-<div id="sector-transition" aria-hidden="true">
-  <span class="sector-readout" id="sectorReadout">SECTOR 01 // ABOUT</span>
-</div>
 <div id="cursor-reticle" aria-hidden="true">
   <span class="reticle-corner reticle-tl"></span>
   <span class="reticle-corner reticle-tr"></span>
@@ -1714,8 +1681,9 @@
       var details = document.createElement('details');
       details.className = 'pub-telemetry';
       details.innerHTML =
-        '<summary><span>BRIEF // PAPER TELEMETRY</span><span>RECORD 0' + (index + 1) + '</span></summary>' +
+        '<summary><span>BRIEF // AI-GENERATED</span><span>RECORD 0' + (index + 1) + '</span></summary>' +
         '<div class="telemetry-body">' +
+        '<div class="telemetry-disclaimer">AI-GENERATED SUMMARY // VERIFY WITH THE ORIGINAL PAPER</div>' +
         '<div class="telemetry-row"><b>PROBLEM</b><span>' + data.problem + '</span></div>' +
         '<div class="telemetry-row"><b>METHOD</b><span>' + data.method + '</span></div>' +
         '<div class="telemetry-row"><b>RESULT</b><span>' + data.result + '</span></div>' +
@@ -2059,32 +2027,19 @@
     var coordSection = document.getElementById('coordSection');
     var coordMeta = document.getElementById('coordMeta');
     var coordStatus = document.getElementById('coordStatus');
-    var sectorTransition = document.getElementById('sector-transition');
-    var sectorReadout = document.getElementById('sectorReadout');
     var currentSection = '';
-    var sectorTimer = null;
     var hudLinks = [];
     var sectionData = {
-      about: { line: 'SEC.01 // PROFILE', meta: 'CV · MM', readout: 'SECTOR 01 // ABOUT' },
-      interests: { line: 'SEC.02 // FIELD', meta: 'CV · DL · MM', readout: 'SECTOR 02 // RESEARCH' },
-      publications: { line: 'SEC.03 // PAPERS', meta: '2020—2026 · 07', readout: 'SECTOR 03 // PUBLICATIONS' }
+      about: { line: 'SEC.01 // PROFILE', meta: 'CV · MM' },
+      interests: { line: 'SEC.02 // FIELD', meta: 'CV · DL · MM' },
+      publications: { line: 'SEC.03 // PAPERS', meta: '2020—2026 · 07' }
     };
 
-    function activateSection(id, immediate) {
+    function activateSection(id) {
       if (!sectionData[id] || currentSection === id) return;
       currentSection = id;
       if (coordSection) coordSection.textContent = sectionData[id].line;
       if (coordMeta) coordMeta.textContent = sectionData[id].meta;
-      if (sectorReadout) sectorReadout.textContent = sectionData[id].readout;
-      if (sectorTransition && !immediate) {
-        if (sectorTimer) clearTimeout(sectorTimer);
-        sectorTransition.classList.remove('is-active');
-        void sectorTransition.offsetWidth;
-        sectorTransition.classList.add('is-active');
-        sectorTimer = setTimeout(function () {
-          sectorTransition.classList.remove('is-active');
-        }, 520);
-      }
     }
 
     var progressFrame = null;
@@ -2126,7 +2081,7 @@
     hudLinks = Array.prototype.slice.call(document.querySelectorAll('.section-hud a'));
     if (hudLinks.length) {
       hudLinks[0].classList.add('is-active');
-      activateSection('about', true);
+      activateSection('about');
       updateActiveSection();
     }
 
