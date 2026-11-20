@@ -2,25 +2,65 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Xin TIAN | Huawei</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#05070c">
+<meta name="description" content="Xin Tian is a senior researcher in computer vision and deep learning at Huawei Hisilicon. His research spans computer vision, deep learning, and multimodal learning.">
+<link rel="canonical" href="https://grassbro.github.io/">
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Xin Tian | Computer Vision Researcher">
+<meta property="og:description" content="Academic profile, research interests, and selected publications of Xin Tian.">
+<meta property="og:url" content="https://grassbro.github.io/">
+<meta property="og:image" content="https://grassbro.github.io/images/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Xin Tian, senior researcher in computer vision and deep learning">
+<meta name="twitter:card" content="summary_large_image">
+<title>Xin TIAN // AI Research</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Xin Tian",
+  "jobTitle": "Senior Researcher",
+  "affiliation": {
+    "@type": "Organization",
+    "name": "Huawei Hisilicon"
+  },
+  "alumniOf": [
+    { "@type": "CollegeOrUniversity", "name": "City University of Hong Kong" },
+    { "@type": "CollegeOrUniversity", "name": "Dalian University of Technology" }
+  ],
+  "knowsAbout": ["Computer Vision", "Deep Learning", "Multimodal Learning"],
+  "url": "https://grassbro.github.io/",
+  "sameAs": [
+    "https://scholar.google.com/citations?user=Ru6BvE4AAAAJ&hl=en",
+    "https://github.com/GrassBro"
+  ]
+}
+</script>
 <style>
   :root {
-    --bg: #f9f8f6;
-    --card-bg: #ffffff;
-    --text: #1a1a24;
-    --text-secondary: #555;
-    --text-light: #8a8a8a;
-    --accent: #1e3a5f;
-    --accent-light: #ecf0f4;
-    --accent-glow: #34669e;
-    --border: #eae7e2;
+    --bg: #05070c;
+    --panel: rgba(10, 16, 27, 0.84);
+    --panel-solid: #0a0f1a;
+    --line: rgba(96, 224, 255, 0.14);
+    --line-strong: rgba(96, 224, 255, 0.42);
+    --text: #dde8f4;
+    --text-dim: #94a7bf;
+    --text-faint: #8293a8;
+    --cyan: #3fe9ff;
+    --cyan-2: #7ff6ff;
+    --green: #74ffb8;
+    --magenta: #ff5ea8;
+    --amber: #ffc861;
     --radius: 8px;
-    --radius-sm: 5px;
-    --sidebar-width: 286px;
-    --max-content: 768px;
-    --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
-    --font-display: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --radius-sm: 6px;
+    --sidebar: 300px;
+    --content: 760px;
+    --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    --disp: "Space Grotesk", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -32,38 +72,160 @@
   }
 
   body {
-    font-family: var(--font-body);
+    font-family: var(--body);
     background: var(--bg);
     color: var(--text);
     line-height: 1.68;
     font-size: 15px;
-    letter-spacing: -0.01em;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
 
+  /* Structural grid + ambient top light */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    background-image:
+      linear-gradient(rgba(80, 220, 255, 0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(80, 220, 255, 0.022) 1px, transparent 1px);
+    background-size: 52px 52px;
+    -webkit-mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 78%);
+    mask-image: radial-gradient(circle at 50% 0%, #000 0%, transparent 78%);
+  }
+  body::after {
+    content: "";
+    position: fixed;
+    top: -260px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1000px;
+    height: 560px;
+    z-index: -1;
+    background: radial-gradient(ellipse at center, rgba(63, 233, 255, 0.085), transparent 62%);
+    pointer-events: none;
+  }
+
+  /* Mouse-reactive neural background */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    pointer-events: none;
+  }
+  #cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 400px;
+    height: 400px;
+    margin: -200px 0 0 -200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(63, 233, 255, 0.1), rgba(63, 233, 255, 0.03) 45%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    mix-blend-mode: screen;
+    will-change: transform;
+  }
+  #cursor-glow.on { opacity: 1; }
+
+  a { color: inherit; }
+  a:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+  .skip-link {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 100;
+    padding: 8px 12px;
+    color: var(--bg);
+    background: var(--cyan);
+    transform: translateY(-160%);
+  }
+  .skip-link:focus { transform: translateY(0); }
+
+  /* Top scroll progress */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: 60;
+    background: rgba(63, 233, 255, 0.06);
+    pointer-events: none;
+  }
+  #scrollBar {
+    display: block;
+    height: 100%;
+    width: 100%;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    background: linear-gradient(90deg, var(--cyan), var(--green));
+    box-shadow: 0 0 10px rgba(63, 233, 255, 0.6);
+  }
+
+  /* ── Layout ── */
   .layout {
     display: flex;
     min-height: 100vh;
     justify-content: center;
+    max-width: 1180px;
+    margin: 0 auto;
   }
 
   /* ── Top Nav (mobile) ── */
-  .topnav { display: none; background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 0 24px; backdrop-filter: blur(8px); }
-  .topnav-inner { display: flex; gap: 0; }
-  .topnav a {
-    padding: 14px 20px; font-size: 14px; font-weight: 500;
-    color: var(--text-secondary); text-decoration: none;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
+  .topnav {
+    display: none;
+    width: 100%;
+    min-width: 0;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 20px;
+    height: 58px;
+    background: rgba(8, 12, 20, 0.86);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
   }
-  .topnav a.active, .topnav a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .topnav-brand {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 1px;
+  }
+  .topnav-brand span { color: var(--text-faint); }
+  .topnav-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    color: var(--green);
+    flex-shrink: 0;
+  }
 
   /* ── Sidebar ── */
   .sidebar {
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
-    background: var(--card-bg);
-    border-right: 1px solid var(--border);
-    padding: 52px 30px 44px;
+    width: var(--sidebar);
+    min-width: var(--sidebar);
+    background: linear-gradient(180deg, rgba(10, 15, 26, 0.9), rgba(6, 9, 15, 0.92));
+    border-right: 1px solid var(--line);
+    padding: 30px 26px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -72,465 +234,891 @@
     top: 0;
     height: 100vh;
     overflow-y: auto;
+    backdrop-filter: blur(10px);
   }
 
-  .sidebar-photo-wrap {
+  .status-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    margin-bottom: 30px;
+  }
+  .profile-kicker { color: var(--text-faint); }
+
+  .photo-ring {
     position: relative;
+    width: 148px;
+    height: 148px;
     margin-bottom: 22px;
+    flex-shrink: 0;
   }
-
-  .sidebar-photo {
-    width: 136px;
-    height: 136px;
+  .photo-ring::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--cyan), var(--green), var(--magenta), var(--cyan));
+    animation: spin 14s linear infinite;
+    filter: blur(0.4px);
+    opacity: 0.9;
+  }
+  .photo-ring::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: 50%;
+    background: var(--bg);
+  }
+  .photo-ring img {
+    position: absolute;
+    inset: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
     border-radius: 50%;
     object-fit: cover;
-    display: block;
-    box-shadow: 0 2px 12px rgba(30, 58, 95, 0.12);
-    transition: box-shadow 0.3s, transform 0.3s;
-  }
-  .sidebar-photo:hover {
-    box-shadow: 0 4px 20px rgba(30, 58, 95, 0.2);
-    transform: scale(1.03);
+    z-index: 1;
+    border: 1px solid rgba(125, 246, 255, 0.35);
   }
 
   .sidebar-name {
-    font-family: var(--font-display);
-    font-size: 22px;
+    font-family: var(--disp);
+    font-size: 23px;
     font-weight: 700;
-    color: var(--text);
-    letter-spacing: -0.3px;
-    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    background: linear-gradient(92deg, #eefaff 0%, var(--cyan-2) 60%, var(--green) 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
-
   .sidebar-title {
-    font-size: 13px;
-    color: var(--text-light);
-    font-weight: 500;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--cyan);
     margin-bottom: 4px;
-    letter-spacing: 0.2px;
   }
-
   .sidebar-affiliation {
-    font-size: 12.5px;
-    color: var(--text-light);
-    line-height: 1.55;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
     margin-bottom: 22px;
   }
 
   .sidebar-divider {
-    width: 32px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-glow) 100%);
-    border-radius: 2px;
-    margin: 0 auto 20px;
-  }
-
-  /* Nav inside sidebar (desktop) */
-  .sidebar-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
     width: 100%;
-    margin-bottom: 12px;
-  }
-  .sidebar-nav a {
-    padding: 8px 14px;
-    font-size: 13.5px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: background 0.2s, color 0.2s;
-    letter-spacing: 0.1px;
-  }
-  .sidebar-nav a.active {
-    background: var(--accent-light);
-    color: var(--accent);
-    font-weight: 600;
-  }
-  .sidebar-nav a:hover {
-    background: #e2e8f0;
-    color: var(--accent);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line-strong), transparent);
+    margin-bottom: 18px;
   }
 
-  .sidebar-links {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    width: 100%;
-  }
-
+  .sidebar-links { display: flex; flex-direction: column; gap: 7px; width: 100%; }
   .sidebar-link {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
+    gap: 10px;
     padding: 9px 14px;
-    background: var(--accent-light);
-    color: var(--accent);
+    background: rgba(63, 233, 255, 0.04);
+    border: 1px solid var(--line);
+    color: var(--text-dim);
     border-radius: var(--radius-sm);
     text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.1px;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    font-family: var(--mono);
+    font-size: 12px;
+    transition: color 0.2s, border-color 0.2s, box-shadow 0.2s, background 0.2s;
   }
-
+  .sidebar-link svg { width: 15px; height: 15px; flex-shrink: 0; color: var(--cyan); }
   .sidebar-link:hover {
-    background: #dce4f0;
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(30, 58, 95, 0.08);
-  }
-
-  .sidebar-link svg {
-    width: 15px;
-    height: 15px;
-    flex-shrink: 0;
+    color: var(--cyan);
+    border-color: var(--line-strong);
+    background: rgba(63, 233, 255, 0.08);
+    box-shadow: 0 0 0 1px rgba(63, 233, 255, 0.12), 0 0 18px rgba(63, 233, 255, 0.1);
   }
 
   /* ── Main Content ── */
   .main {
-    flex: 0 1 var(--max-content);
-    padding: 52px 56px 72px;
-    width: var(--max-content);
+    flex: 1 1 var(--content);
+    max-width: var(--content);
+    padding: 46px 52px 64px;
+    width: var(--content);
+  }
+  .main section { margin-bottom: 46px; }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    padding: 28px 30px 24px;
+    margin-bottom: 46px;
+    background-color: var(--panel);
+    background-image: radial-gradient(340px circle at var(--mx, 60%) var(--my, 0%), rgba(63, 233, 255, 0.1), transparent 62%);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    backdrop-filter: blur(8px);
+    overflow: hidden;
+    transition: background-color 0.2s;
+  }
+  .hero::before,
+  .hero::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-color: var(--cyan);
+    border-style: solid;
+    opacity: 0.7;
+  }
+  .hero::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+  .hero::after { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+  .hero .scan {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(63, 233, 255, 0.7), transparent);
+    opacity: 0;
+    pointer-events: none;
+    animation: scan 9s ease-in-out infinite;
   }
 
-  .main section { margin-bottom: 52px; }
-
-  .section-label {
+  .hero-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .tag {
+    font-family: var(--mono);
     font-size: 10.5px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    color: var(--text-light);
-    margin-bottom: 10px;
-    font-weight: 600;
+    color: var(--cyan);
+    letter-spacing: 1px;
   }
+  .hero-title {
+    font-family: var(--disp);
+    font-size: 30px;
+    line-height: 1.22;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    margin-bottom: 10px;
+    max-width: 16ch;
+    color: #f2f8ff;
+  }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(92deg, var(--cyan) 0%, var(--green) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero-sub { font-size: 13.5px; color: var(--text-dim); max-width: 46ch; }
+
+  .hero-edge {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), var(--green), transparent);
+    background-size: 200% 100%;
+    opacity: 0.4;
+    pointer-events: none;
+    animation: edgeslide 6s linear infinite;
+  }
+
+  /* Section head */
+  .section-head { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--cyan);
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .section-label::before { content: "// "; color: var(--text-faint); }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background-image: linear-gradient(90deg, rgba(63, 233, 255, 0.38), rgba(63, 233, 255, 0.06));
+  }
+  .section-count { font-family: var(--mono); font-size: 11px; color: var(--text-faint); }
 
   .section-text {
-    color: var(--text-secondary);
-    line-height: 1.78;
-    font-size: 15px;
+    color: var(--text-dim);
+    line-height: 1.82;
+    font-size: 14.5px;
+    max-width: 66ch;
   }
-
   .section-text strong {
-    color: var(--text);
+    color: #eef6ff;
     font-weight: 600;
   }
 
-  /* ── Research Interest Tags ── */
+  /* Interest tags */
   .interest-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-
   .interest-tag {
-    padding: 8px 18px;
-    background: var(--accent-light);
-    color: var(--accent);
-    border-radius: 24px;
-    font-size: 13.5px;
-    font-weight: 500;
-    white-space: nowrap;
-    letter-spacing: 0.1px;
-    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+    background: rgba(63, 233, 255, 0.035);
+    border: 1px solid rgba(63, 233, 255, 0.22);
+    border-radius: 4px;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s, color 0.2s;
   }
-
+  .interest-tag::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 6px var(--cyan);
+  }
+  .interest-tag:nth-child(2)::before { background: var(--green); box-shadow: 0 0 6px var(--green); }
+  .interest-tag:nth-child(3)::before { background: var(--magenta); box-shadow: 0 0 6px var(--magenta); }
+  .interest-tag:nth-child(4)::before { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
   .interest-tag:hover {
-    background: #dce4f0;
+    color: var(--cyan);
+    border-color: var(--line-strong);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(30, 58, 95, 0.08);
+    box-shadow: 0 0 18px rgba(63, 233, 255, 0.12);
   }
 
-  /* ── Publications ── */
-  .pub-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--border);
-  }
-
+  /* Publications */
+  .pub-list { display: flex; flex-direction: column; gap: 10px; }
   .pub-item {
-    padding: 22px 26px;
-    background: var(--card-bg);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s;
+    position: relative;
+    display: grid;
+    grid-template-columns: 46px 1fr;
+    gap: 6px;
+    padding: 18px 20px 18px 14px;
+    background-color: rgba(8, 13, 22, 0.88);
+    border: 1px solid var(--line);
+    border-left: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(6px);
+    transition: border-color 0.2s, border-left-color 0.2s, background 0.2s, box-shadow 0.2s, transform 0.15s;
   }
-
-  .pub-item:last-child { border-bottom: none; }
-
-  .pub-item:hover { background: #fafbfc; }
-
+  .pub-item::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(63, 233, 255, 0.13), transparent 62%);
+    opacity: 0;
+    transition: opacity 0.25s;
+    z-index: 0;
+  }
+  .pub-item:hover::before { opacity: 1; }
+  .pub-item:hover {
+    border-left-color: var(--cyan);
+    border-color: rgba(63, 233, 255, 0.28);
+    background-color: rgba(12, 20, 32, 0.94);
+    box-shadow: 0 0 22px rgba(63, 233, 255, 0.08);
+    transform: translateX(2px);
+  }
+  .pub-index {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    padding-top: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .pub-item:hover .pub-index { color: var(--cyan); }
+  .pub-body { min-width: 0; position: relative; z-index: 1; }
+  .pub-title-row { margin-bottom: 5px; }
   .pub-title {
+    font-family: var(--disp);
     font-size: 15px;
     font-weight: 600;
-    color: var(--accent);
-    line-height: 1.45;
+    color: #eaf3ff;
+    line-height: 1.4;
     text-decoration: none;
-    display: inline;
     transition: color 0.15s;
-    letter-spacing: -0.1px;
   }
-
-  .pub-title:hover { color: var(--accent-glow); }
-
-  .pub-title-row {
-    margin-bottom: 5px;
-  }
-
-  .pub-authors {
-    font-size: 13.5px;
-    color: var(--text-secondary);
-    margin-bottom: 3px;
-  }
-  .pub-authors .self { font-weight: 700; color: var(--text); }
-
-  .pub-venue {
-    font-size: 12.5px;
-    color: var(--text-light);
-    font-style: italic;
-    letter-spacing: 0.1px;
-  }
-
+  .pub-title:hover { color: var(--cyan); }
+  .pub-authors { font-size: 12.5px; color: var(--text-faint); margin-bottom: 4px; }
+  .pub-authors .self { color: var(--green); font-weight: 600; }
+  .pub-venue { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
   .pub-badge {
     display: inline-block;
-    font-size: 10px;
-    padding: 3px 9px;
-    border-radius: 12px;
+    font-family: var(--mono);
+    font-size: 9.5px;
     font-weight: 600;
-    margin-left: 7px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 6px;
     vertical-align: middle;
-    font-style: normal;
-    letter-spacing: 0.3px;
     text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-
   .badge-oral {
-    background: #d1fae5;   /* 淡绿 */
-    color: #065f46;        /* 深绿 */
+    color: var(--green);
+    background: rgba(116, 255, 184, 0.1);
+    border: 1px solid rgba(116, 255, 184, 0.4);
   }
-
   .badge-award {
-    background: #fee2e2;   /* 淡红 */
-    color: #991b1b;        /* 深红 */
+    color: var(--amber);
+    background: rgba(255, 200, 97, 0.1);
+    border: 1px solid rgba(255, 200, 97, 0.4);
   }
 
-  /* ── Footer ── */
+  /* Footer */
   .footer {
-    margin-top: 60px;
-    padding-top: 22px;
-    border-top: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--text-light);
-    letter-spacing: 0.2px;
+    margin-top: 54px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .footer .sig { color: var(--cyan); }
+
+  /* Entrance + typed caret */
+  .reveal { animation: revealSlide 0.75s cubic-bezier(0.16, 0.84, 0.24, 1) both; }
+  .typed-caret {
+    display: inline-block;
+    width: 8px;
+    height: 1.05em;
+    margin-left: 2px;
+    vertical-align: -0.16em;
+    background: var(--cyan);
+    box-shadow: 0 0 8px rgba(63, 233, 255, 0.7);
+    animation: blink 1s steps(1) infinite;
+  }
+
+  /* Animation */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes scan {
+    0% { top: 0; opacity: 0; }
+    12% { opacity: 0.75; }
+    70% { opacity: 0.35; }
+    92% { opacity: 0; }
+    100% { top: 100%; opacity: 0; }
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+  @keyframes edgeslide {
+    from { background-position: 0% 0; }
+    to { background-position: -200% 0; }
+  }
+  @keyframes revealSlide {
+    from { transform: translateY(16px); }
+    to { transform: none; }
   }
 
   /* ── Responsive ── */
   @media (max-width: 920px) {
     .topnav { display: flex; }
-    .sidebar-nav { display: none; }
-    .layout { flex-direction: column; }
+    .layout { width: 100%; flex-direction: column; }
     .sidebar {
-      width: 100%; min-width: 100%; height: auto;
+      width: 100%;
+      min-width: 100%;
+      height: auto;
       position: static;
-      padding: 36px 24px 32px;
+      padding: 30px 24px 28px;
       border-right: none;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--line);
     }
-    .sidebar-photo { width: 100px; height: 100px; }
-    .main { padding: 36px 28px 48px; flex: 1; width: auto; }
-    .pub-item { padding: 18px 20px; }
-    .sidebar-divider { display: none; }
+    .status-line { margin-bottom: 22px; }
+    .photo-ring { width: 118px; height: 118px; }
+    .main { min-width: 0; max-width: none; padding: 34px 24px 50px; width: 100%; flex: 1; }
+    .hero { padding: 22px 20px; }
+    .hero-title { font-size: 25px; }
+    .pub-item { min-width: 0; grid-template-columns: 34px minmax(0, 1fr); padding: 16px 16px 16px 12px; }
+  }
+  @media (max-width: 480px) {
+    .main { padding: 28px 18px 44px; }
+    .hero { padding: 20px 16px; }
+    .hero-top { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+    .hero-title { font-size: 24px; }
+    .section-head { gap: 10px; }
+    .section-label { font-size: 10px; }
+    .interest-tags { gap: 7px; }
+    .interest-tag { padding: 7px 10px; font-size: 11px; }
+    .pub-item { grid-template-columns: 26px minmax(0, 1fr); gap: 4px; padding: 14px 12px 14px 10px; }
+    .pub-title { font-size: 14px; }
+    .pub-authors { font-size: 11.5px; }
+    .pub-venue { font-size: 10px; }
+    .pub-badge { padding: 2px 6px; font-size: 9px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- Top nav for mobile -->
+<a class="skip-link" href="#main-content">Skip to content</a>
+<div class="scroll-progress" aria-hidden="true"><span id="scrollBar"></span></div>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div id="cursor-glow" aria-hidden="true"></div>
+
+<!-- Mobile top nav -->
 <nav class="topnav">
-  <div class="topnav-inner">
-    <a href="index.html" class="active">Home</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="blog.html">Blog</a>
-  </div>
+  <div class="topnav-brand">XIN<span>_</span>TIAN</div>
+  <span class="topnav-status">RESEARCHER</span>
 </nav>
 
 <div class="layout">
 
   <!-- ── Sidebar ── -->
   <aside class="sidebar">
-    <div class="sidebar-photo-wrap">
-      <img class="sidebar-photo"
-           src="images/photo.jpg"
-           alt="Xin TIAN"
-           width="136" height="136"
-           loading="eager">
+    <div class="status-line">
+      <span class="profile-kicker">ACADEMIC PROFILE</span>
+    </div>
+
+    <div class="photo-ring">
+      <img src="images/photo.jpg" alt="Portrait of Xin TIAN" loading="eager">
     </div>
 
     <h1 class="sidebar-name">Xin TIAN</h1>
-    <div class="sidebar-title">Senior Researcher</div>
+    <div class="sidebar-title">SENIOR RESEARCHER</div>
     <div class="sidebar-affiliation">Huawei Hisilicon</div>
-
-    <div class="sidebar-divider"></div>
-
-    <div class="sidebar-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="gallery.html">Gallery</a>
-      <a href="blog.html">Blog</a>
-    </div>
 
     <div class="sidebar-divider"></div>
 
     <div class="sidebar-links">
       <a class="sidebar-link" href="https://scholar.google.com/citations?user=Ru6BvE4AAAAJ&hl=en" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
           <path d="M6 12v5c0 2 4 3 6 3s6-1 6-3v-5"/>
         </svg>
         Google Scholar
       </a>
       <a class="sidebar-link" href="https://github.com/GrassBro" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
         </svg>
         GitHub
       </a>
       <a class="sidebar-link" href="mailto:xin.tian.831@gmail.com">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="2"/>
           <path d="M22 4L12 13 2 4"/>
         </svg>
         Email
       </a>
     </div>
+
   </aside>
 
   <!-- ── Main Content ── -->
-  <main class="main">
-    <section id="about">
-      <div class="section-label">About</div>
-      <p class="section-text">
-        I am a senior researcher in computer vision and multimodal learning at Huawei Hisilicon.
-        My work focuses on translating cutting-edge research into commercial AI solutions.
-        I have developed perceptual visual quality enhancement models currently deployed on cloud media services
-        and low-power multimodal perception models that run in agents for smartphones.
+  <main class="main" id="main-content">
 
-        Before joining Huawei, I earned a dual PhD in Computer Science from City University of Hong Kong and Dalian University of Technology in 2023.
-        My research has been published at top-tier venues including CVPR, AAAI, IJCV, TIP, TDSC, and BMVC,
-        and I received the Best Student Paper Runner-Up Award at BMVC 2020.
+    <section class="hero reveal">
+      <span class="scan" aria-hidden="true"></span>
+      <div class="hero-top">
+        <span class="tag">// RESEARCH PROFILE</span>
+      </div>
+      <h2 class="hero-title">Vision, <em>Multimodality</em> &amp; Frontier AI</h2>
+      <p class="hero-sub" id="heroSub">Computer vision, deep learning, and multimodal learning.</p>
+      <span class="hero-edge" aria-hidden="true"></span>
+    </section>
+
+    <section id="about" class="reveal">
+      <div class="section-head">
+        <h2 class="section-label">About</h2>
+        <span class="section-rule"></span>
+      </div>
+      <p class="section-text">
+        I am a senior researcher in computer vision and deep learning, affiliated with Huawei Hisilicon.
+        I obtained a dual PhD in Computer Science from City University of Hong Kong and Dalian University of Technology in 2023.
+        I have published at top venues including CVPR, AAAI, IJCV, TIP, and BMVC.
+        As the first author, I received the Best Student Paper Runner-Up Award at BMVC 2020.
       </p>
     </section>
 
-    <section id="interests">
-      <div class="section-label">Research Interests</div>
+    <section id="interests" class="reveal">
+      <div class="section-head">
+        <h2 class="section-label">Research Interests</h2>
+        <span class="section-rule"></span>
+      </div>
       <div class="interest-tags">
         <span class="interest-tag">Computer Vision</span>
         <span class="interest-tag">Deep Learning</span>
         <span class="interest-tag">Multi-Modality Learning</span>
-        <span class="interest-tag">GUI Agent</span>
       </div>
     </section>
 
-    <section id="publications">
-      <div class="section-label">Selected Publications</div>
+    <section id="publications" class="reveal">
+      <div class="section-head">
+        <h2 class="section-label">Selected Publications</h2>
+        <span class="section-rule"></span>
+        <span class="section-count">07</span>
+      </div>
       <div class="pub-list">
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:LkGwnXOMwfcC" target="_blank" rel="noopener">
-              Video Mirror Detection with the Motion-in-Depth Cue
-            </a>
-            <span class="pub-badge badge-oral">Oral</span>
+          <div class="pub-index">01</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:LkGwnXOMwfcC" target="_blank" rel="noopener">
+                Video Mirror Detection with the Motion-in-Depth Cue
+              </a>
+              <span class="pub-badge badge-oral">Oral</span>
+            </div>
+            <div class="pub-authors">
+              Alex Warren, Ke Xu, <span class="self">Xin Tian</span>, Gary Tam, Benjamin Wah, Rynson Lau
+            </div>
+            <div class="pub-venue">AAAI, 2026</div>
           </div>
-          <div class="pub-authors">
-            Alex Warren, Ke Xu, <span class="self">Xin Tian</span>, Gary Tam, Benjamin Wah, Rynson Lau
-          </div>
-          <div class="pub-venue">AAAI, 2026</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:_FxGoFyzp5QC" target="_blank" rel="noopener">
-              Unsupervised Salient Instance Detection
-            </a>
+          <div class="pub-index">02</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:_FxGoFyzp5QC" target="_blank" rel="noopener">
+                Unsupervised Salient Instance Detection
+              </a>
+            </div>
+            <div class="pub-authors">
+              <span class="self">Xin Tian</span>, Ke Xu, Rynson Lau
+            </div>
+            <div class="pub-venue">CVPR, 2024</div>
           </div>
-          <div class="pub-authors">
-            <span class="self">Xin Tian</span>, Ke Xu, Rynson Lau
-          </div>
-          <div class="pub-venue">CVPR, 2024</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:ufrVoPGSRksC" target="_blank" rel="noopener">
-              Reverse Backdoor Distillation: Towards Online Backdoor Attack Detection for Deep Neural Network Models
-            </a>
+          <div class="pub-index">03</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:ufrVoPGSRksC" target="_blank" rel="noopener">
+                Reverse Backdoor Distillation: Towards Online Backdoor Attack Detection for Deep Neural Network Models
+              </a>
+            </div>
+            <div class="pub-authors">
+              Zeming Yao, Hangtao Zhang, Yicheng Guo, <span class="self">Xin Tian</span>, Wei Peng, Yi Zou, Leo Yu Zhang, Chao Chen
+            </div>
+            <div class="pub-venue">IEEE Transactions on Dependable and Secure Computing (TDSC), 2024</div>
           </div>
-          <div class="pub-authors">
-            Zeming Yao, Hangtao Zhang, Yicheng Guo, <span class="self">Xin Tian</span>, Wei Peng, Yi Zou, Leo Yu Zhang, Chao Chen
-          </div>
-          <div class="pub-venue">IEEE Transactions on Dependable and Secure Computing (TDSC), 2024</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:W7OEmFMy1HYC" target="_blank" rel="noopener">
-              Bi-directional Object-context Prioritization Learning for Saliency Ranking
-            </a>
+          <div class="pub-index">04</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:W7OEmFMy1HYC" target="_blank" rel="noopener">
+                Bi-directional Object-context Prioritization Learning for Saliency Ranking
+              </a>
+            </div>
+            <div class="pub-authors">
+              <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Lin Du, Baocai Yin, Rynson Lau
+            </div>
+            <div class="pub-venue">CVPR, 2022</div>
           </div>
-          <div class="pub-authors">
-            <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Lin Du, Baocai Yin, Rynson Lau
-          </div>
-          <div class="pub-venue">CVPR, 2022</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Tyk-4Ss8FVUC" target="_blank" rel="noopener">
-              Learning to Detect Instance-level Salient Objects using Complementary Image Labels
-            </a>
+          <div class="pub-index">05</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Tyk-4Ss8FVUC" target="_blank" rel="noopener">
+                Learning to Detect Instance-level Salient Objects using Complementary Image Labels
+              </a>
+            </div>
+            <div class="pub-authors">
+              <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
+            </div>
+            <div class="pub-venue">International Journal of Computer Vision (IJCV), 2022</div>
           </div>
-          <div class="pub-authors">
-            <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
-          </div>
-          <div class="pub-venue">International Journal of Computer Vision (IJCV), 2022</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Y0pCki6q_DkC" target="_blank" rel="noopener">
-              Intensity-Aware Single-Image Deraining With Semantic and Color Regularization
-            </a>
+          <div class="pub-index">06</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Y0pCki6q_DkC" target="_blank" rel="noopener">
+                Intensity-Aware Single-Image Deraining With Semantic and Color Regularization
+              </a>
+            </div>
+            <div class="pub-authors">
+              Ke Xu, <span class="self">Xin Tian</span>, Xin Yang, Baocai Yin, Rynson Lau
+            </div>
+            <div class="pub-venue">IEEE Transactions on Image Processing (TIP), 2021</div>
           </div>
-          <div class="pub-authors">
-            Ke Xu, <span class="self">Xin Tian</span>, Xin Yang, Baocai Yin, Rynson Lau
-          </div>
-          <div class="pub-venue">IEEE Transactions on Image Processing (TIP), 2021</div>
         </div>
 
         <div class="pub-item">
-          <div class="pub-title-row">
-            <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:UeHWp8X0CEIC" target="_blank" rel="noopener">
-              Weakly-supervised Salient Instance Detection
-            </a>
-            <span class="pub-badge badge-oral">Oral</span>
-            <span class="pub-badge badge-award">Best Student Paper Runner-Up</span>
+          <div class="pub-index">07</div>
+          <div class="pub-body">
+            <div class="pub-title-row">
+              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:UeHWp8X0CEIC" target="_blank" rel="noopener">
+                Weakly-supervised Salient Instance Detection
+              </a>
+              <span class="pub-badge badge-oral">Oral</span>
+              <span class="pub-badge badge-award">Best Student Paper Runner-Up</span>
+            </div>
+            <div class="pub-authors">
+              <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
+            </div>
+            <div class="pub-venue">BMVC, 2020</div>
           </div>
-          <div class="pub-authors">
-            <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
-          </div>
-          <div class="pub-venue">BMVC, 2020</div>
         </div>
 
       </div>
     </section>
 
-    <div class="footer">
-      &copy; 2026 Xin TIAN. Last updated July 2026.
-    </div>
+    <footer class="footer reveal">
+      <span>&copy; 2026 Xin TIAN</span>
+      <span>COMPUTER VISION <span class="sig">+</span> MULTIMODAL LEARNING</span>
+    </footer>
   </main>
 
 </div>
+
+<script>
+  (function () {
+    var canvas = document.getElementById('bg-canvas');
+    var glow = document.getElementById('cursor-glow');
+    if (!canvas || !canvas.getContext) return;
+
+    var ctx = canvas.getContext('2d');
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0, raf = null, lastFrame = 0;
+    var particles = [];
+    var mouse = { x: -9999, y: -9999, active: false };
+    var palette = [
+      [63, 233, 255],
+      [116, 255, 184],
+      [63, 233, 255],
+      [255, 94, 168]
+    ];
+    var LINK = 120, MOUSE_LINK = 176, REPEL = 132;
+
+    function resize() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      seed();
+    }
+
+    function seed() {
+      var count = Math.max(22, Math.min(76, Math.round((W * H) / 28000)));
+      particles = [];
+      for (var i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.26,
+          vy: (Math.random() - 0.5) * 0.26,
+          r: 0.8 + Math.random() * 1.2,
+          c: palette[i % palette.length]
+        });
+      }
+    }
+
+    function frame(now) {
+      if (document.hidden) return;
+      if (!reduce && now - lastFrame < 32) {
+        raf = requestAnimationFrame(frame);
+        return;
+      }
+      lastFrame = now || 0;
+      ctx.clearRect(0, 0, W, H);
+
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < -20) p.x = W + 20;
+        if (p.x > W + 20) p.x = -20;
+        if (p.y < -20) p.y = H + 20;
+        if (p.y > H + 20) p.y = -20;
+
+        if (mouse.active) {
+          var dx = p.x - mouse.x;
+          var dy = p.y - mouse.y;
+          var d2 = dx * dx + dy * dy;
+          if (d2 < REPEL * REPEL && d2 > 0.01) {
+            var d = Math.sqrt(d2);
+            var f = (REPEL - d) / REPEL;
+            p.x += (dx / d) * f * 0.9;
+            p.y += (dy / d) * f * 0.9;
+          }
+        }
+      }
+
+      for (var a = 0; a < particles.length; a++) {
+        var pa = particles[a];
+        for (var b = a + 1; b < particles.length; b++) {
+          var pb = particles[b];
+          var ddx = pa.x - pb.x;
+          var ddy = pa.y - pb.y;
+          var dd = Math.sqrt(ddx * ddx + ddy * ddy);
+          if (dd < LINK) {
+            var alpha = (1 - dd / LINK) * 0.16;
+            ctx.strokeStyle = 'rgba(90, 200, 255,' + alpha.toFixed(3) + ')';
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(pa.x, pa.y);
+            ctx.lineTo(pb.x, pb.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      if (mouse.active) {
+        for (var k = 0; k < particles.length; k++) {
+          var pk = particles[k];
+          var mx = pk.x - mouse.x;
+          var my = pk.y - mouse.y;
+          var md = Math.sqrt(mx * mx + my * my);
+          if (md < MOUSE_LINK) {
+            var ma = (1 - md / MOUSE_LINK) * 0.5;
+            ctx.strokeStyle = 'rgba(63, 233, 255,' + ma.toFixed(3) + ')';
+            ctx.lineWidth = 0.85;
+            ctx.beginPath();
+            ctx.moveTo(pk.x, pk.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      for (var j = 0; j < particles.length; j++) {
+        var pt = particles[j];
+        var cc = pt.c;
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(' + cc[0] + ',' + cc[1] + ',' + cc[2] + ',0.85)';
+        ctx.shadowColor = 'rgba(' + cc[0] + ',' + cc[1] + ',' + cc[2] + ',0.8)';
+        ctx.shadowBlur = 6;
+        ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      if (!reduce && !document.hidden) raf = requestAnimationFrame(frame);
+    }
+
+    function start() {
+      if (raf) cancelAnimationFrame(raf);
+      if (reduce) { frame(); } else { raf = requestAnimationFrame(frame); }
+    }
+
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = null;
+      } else {
+        start();
+      }
+    });
+
+    window.addEventListener('resize', function () { resize(); if (reduce) start(); });
+
+    window.addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+      if (glow) {
+        glow.classList.add('on');
+        glow.style.transform = 'translate(' + e.clientX + 'px,' + e.clientY + 'px)';
+      }
+    }, { passive: true });
+
+    window.addEventListener('mouseleave', function () {
+      mouse.active = false;
+      if (glow) glow.classList.remove('on');
+    });
+
+    window.addEventListener('touchmove', function (e) {
+      if (!e.touches || !e.touches.length) return;
+      var t = e.touches[0];
+      mouse.x = t.clientX;
+      mouse.y = t.clientY;
+      mouse.active = true;
+      if (glow) {
+        glow.classList.add('on');
+        glow.style.transform = 'translate(' + t.clientX + 'px,' + t.clientY + 'px)';
+      }
+    }, { passive: true });
+
+    resize();
+    start();
+  })();
+</script>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Scroll progress bar
+    var bar = document.getElementById('scrollBar');
+    function updateProgress() {
+      if (!bar) return;
+      var doc = document.documentElement;
+      var max = doc.scrollHeight - doc.clientHeight;
+      var ratio = max > 0 ? (doc.scrollTop || window.pageYOffset || 0) / max : 0;
+      bar.style.transform = 'scaleX(' + ratio.toFixed(4) + ')';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    updateProgress();
+
+    // Terminal typewriter on the hero subtitle
+    var sub = document.getElementById('heroSub');
+    if (sub) {
+      var full = sub.textContent.trim();
+      sub.setAttribute('aria-label', full);
+      if (!reduce) {
+        sub.innerHTML = '<span id="typedText"></span><span class="typed-caret" aria-hidden="true"></span>';
+        var typed = document.getElementById('typedText');
+        var idx = 0;
+        (function type() {
+          if (idx <= full.length) {
+            typed.textContent = full.slice(0, idx);
+            idx++;
+            setTimeout(type, idx < 5 ? 90 : 33);
+          }
+        })();
+      }
+    }
+
+    // Cursor spotlight inside hero and publication cards
+    function bindSpotlight(selector) {
+      document.querySelectorAll(selector).forEach(function (card) {
+        card.addEventListener('pointermove', function (e) {
+          var rect = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
+        });
+      });
+    }
+    bindSpotlight('.hero');
+    bindSpotlight('.pub-item');
+  })();
+</script>
 </body>
 </html>

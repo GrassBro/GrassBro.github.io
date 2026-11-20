@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="42" height="42" patternUnits="userSpaceOnUse">
+      <path d="M42 0H0V42" fill="none" stroke="#62dff0" stroke-opacity=".075" stroke-width="1"/>
+    </pattern>
+    <clipPath id="portrait"><circle cx="966" cy="284" r="132"/></clipPath>
+  </defs>
+  <rect width="1200" height="630" fill="#05070c"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <rect x="32" y="32" width="1136" height="566" rx="8" fill="#0a101b" fill-opacity=".92" stroke="#60e0ff" stroke-opacity=".28"/>
+  <path d="M48 33h140M32 48v96M1152 597h-140m156-16v-96" fill="none" stroke="#3fe9ff" stroke-width="2"/>
+  <text x="86" y="105" fill="#3fe9ff" font-family="monospace" font-size="16" letter-spacing="2">ACADEMIC PROFILE</text>
+  <text x="84" y="208" fill="#eef6ff" font-family="Arial, sans-serif" font-size="74" font-weight="700">Xin Tian</text>
+  <text x="88" y="254" fill="#7ff6ff" font-family="monospace" font-size="20" letter-spacing="1">SENIOR RESEARCHER</text>
+  <text x="88" y="293" fill="#a9b9cb" font-family="Arial, sans-serif" font-size="21">Computer vision and deep learning</text>
+  <text x="88" y="326" fill="#a9b9cb" font-family="Arial, sans-serif" font-size="21">Huawei Hisilicon</text>
+  <path d="M88 357h628" stroke="#60e0ff" stroke-opacity=".22"/>
+  <text x="88" y="397" fill="#8293a8" font-family="monospace" font-size="14" letter-spacing="1">RESEARCH INTERESTS</text>
+  <g font-family="monospace" font-size="15" fill="#dde8f4">
+    <rect x="88" y="418" width="174" height="42" rx="4" fill="#3fe9ff" fill-opacity=".045" stroke="#60e0ff" stroke-opacity=".42"/>
+    <text x="106" y="444">Computer Vision</text>
+    <rect x="274" y="418" width="160" height="42" rx="4" fill="#74ffb8" fill-opacity=".04" stroke="#74ffb8" stroke-opacity=".35"/>
+    <text x="292" y="444">Deep Learning</text>
+    <rect x="446" y="418" width="250" height="42" rx="4" fill="#ff5ea8" fill-opacity=".035" stroke="#ff5ea8" stroke-opacity=".3"/>
+    <text x="464" y="444">Multi-Modality Learning</text>
+  </g>
+  <path d="M88 510h628" stroke="#60e0ff" stroke-opacity=".22"/>
+  <text x="88" y="548" fill="#ffc861" font-family="monospace" font-size="15">BMVC 2020  /  ORAL  /  BEST STUDENT PAPER RUNNER-UP</text>
+  <circle cx="966" cy="284" r="148" fill="none" stroke="#3fe9ff" stroke-width="2"/>
+  <circle cx="966" cy="284" r="140" fill="#101b2a" stroke="#74ffb8" stroke-opacity=".7" stroke-width="1"/>
+  <image href="photo.jpg" x="834" y="152" width="264" height="264" preserveAspectRatio="xMidYMid slice" clip-path="url(#portrait)"/>
+  <text x="966" y="492" fill="#8293a8" font-family="monospace" font-size="14" text-anchor="middle" letter-spacing="2">XIN TIAN  //  COMPUTER VISION</text>
+  <circle cx="1095" cy="420" r="3" fill="#74ffb8"/>
+  <circle cx="828" cy="149" r="2.5" fill="#ff5ea8"/>
+</svg>
