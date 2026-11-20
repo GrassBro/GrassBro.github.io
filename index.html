@@ -8,15 +8,15 @@
 <link rel="canonical" href="https://grassbro.github.io/">
 <link rel="icon" type="image/svg+xml" href="images/favicon.svg">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Xin Tian | Computer Vision Researcher">
-<meta property="og:description" content="Academic profile, research interests, and selected publications of Xin Tian.">
+<meta property="og:title" content="Xin Tian | Computer Vision &amp; Multimodal Learning">
+<meta property="og:description" content="Senior researcher in computer vision, visual perception, and multimodal learning.">
 <meta property="og:url" content="https://grassbro.github.io/">
 <meta property="og:image" content="https://grassbro.github.io/images/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Xin Tian, senior researcher in computer vision and deep learning">
 <meta name="twitter:card" content="summary_large_image">
-<title>Xin TIAN // AI Research</title>
+<title>Xin TIAN // Computer Vision &amp; Multimodal Learning</title>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -250,39 +250,173 @@
   .profile-kicker { color: var(--text-faint); }
 
   .photo-ring {
+    --ring-a: 63, 233, 255;
+    --ring-b: 116, 255, 184;
+    --ring-c: 127, 246, 255;
     position: relative;
-    width: 148px;
-    height: 148px;
-    margin-bottom: 22px;
+    width: 164px;
+    height: 164px;
+    margin: 2px 0 24px;
     flex-shrink: 0;
+    isolation: isolate;
   }
   .photo-ring::before {
     content: "";
     position: absolute;
-    inset: -3px;
+    inset: 6px;
     border-radius: 50%;
-    background: conic-gradient(from 0deg, var(--cyan), var(--green), var(--magenta), var(--cyan));
-    animation: spin 14s linear infinite;
-    filter: blur(0.4px);
-    opacity: 0.9;
+    z-index: 7;
+    background: conic-gradient(
+      from 205deg,
+      rgb(var(--ring-a)) 0deg,
+      rgb(var(--ring-c)) 58deg,
+      #f4fffd 84deg,
+      rgb(var(--ring-b)) 154deg,
+      rgb(var(--ring-a)) 242deg,
+      rgb(var(--ring-c)) 306deg,
+      rgb(var(--ring-a)) 360deg
+    );
+    -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    mask: radial-gradient(farthest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+    filter:
+      drop-shadow(0 0 4px rgba(var(--ring-c), 0.95))
+      drop-shadow(0 0 12px rgba(var(--ring-b), 0.52));
+    transition: filter 0.6s ease;
+    animation: spin 10s linear infinite;
   }
   .photo-ring::after {
     content: "";
     position: absolute;
-    inset: 1px;
+    inset: 10px;
     border-radius: 50%;
-    background: var(--bg);
+    z-index: 1;
+    background:
+      radial-gradient(circle at 50% 48%, rgba(10, 22, 34, 0.96) 0 57%, rgba(6, 13, 22, 0.98) 74%),
+      var(--bg);
+    box-shadow: inset 0 0 18px rgba(var(--ring-a), 0.14);
+  }
+  .warp-field,
+  .warp-tunnel,
+  .warp-streaks,
+  .warp-orbit {
+    position: absolute;
+    pointer-events: none;
+  }
+  .warp-field {
+    inset: -23px;
+    z-index: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 38% 33%, rgba(var(--ring-c), 0.34), transparent 18%),
+      radial-gradient(circle at 68% 72%, rgba(var(--ring-b), 0.24), transparent 22%),
+      radial-gradient(circle, transparent 53%, rgba(var(--ring-a), 0.2) 57%, rgba(var(--ring-b), 0.08) 66%, transparent 73%);
+    filter: blur(7px);
+    opacity: 0.9;
+    animation: warpBreath 4.8s ease-in-out infinite;
+  }
+  .warp-tunnel {
+    inset: -8px;
+    z-index: 2;
+    border-radius: 50%;
+    background: repeating-radial-gradient(
+      circle at center,
+      transparent 0 8px,
+      rgba(var(--ring-c), 0.2) 9px,
+      transparent 10px 16px
+    );
+    -webkit-mask: radial-gradient(circle, transparent 0 55%, #000 57% 76%, transparent 80%);
+    mask: radial-gradient(circle, transparent 0 55%, #000 57% 76%, transparent 80%);
+    opacity: 0.65;
+    animation: warpTunnel 5.6s ease-in-out infinite;
+  }
+  .warp-streaks {
+    inset: -2px;
+    z-index: 6;
+    border-radius: 50%;
+    background: repeating-conic-gradient(
+      from 12deg,
+      transparent 0deg 12deg,
+      rgba(var(--ring-c), 0.48) 13deg 13.7deg,
+      transparent 14.5deg 31deg,
+      rgba(var(--ring-b), 0.32) 32deg 32.6deg,
+      transparent 33.4deg 57deg
+    );
+    -webkit-mask: radial-gradient(circle, transparent 0 63%, #000 64% 74%, transparent 79%);
+    mask: radial-gradient(circle, transparent 0 63%, #000 64% 74%, transparent 79%);
+    filter: blur(0.25px);
+    animation: warpStreak 8s linear infinite;
+  }
+  .warp-orbit {
+    left: -7%;
+    top: 26%;
+    width: 114%;
+    height: 48%;
+    z-index: 5;
+    border: 1px solid rgba(var(--ring-b), 0.14);
+    border-top-color: rgba(var(--ring-c), 0.8);
+    border-right-color: rgba(var(--ring-b), 0.48);
+    border-radius: 50%;
+    filter: drop-shadow(0 0 3px rgba(var(--ring-a), 0.45));
+  }
+  .warp-orbit-a {
+    transform: rotate(-15deg);
+    animation: orbitA 9s ease-in-out infinite;
+  }
+  .warp-orbit-b {
+    transform: rotate(19deg);
+    border-top-color: rgba(var(--ring-b), 0.55);
+    border-bottom-color: rgba(var(--ring-c), 0.72);
+    opacity: 0.68;
+    animation: orbitB 12s ease-in-out infinite;
+  }
+  .avatar-window {
+    position: absolute;
+    inset: 13px;
+    z-index: 4;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid rgba(var(--ring-c), 0.72);
+    box-shadow:
+      0 0 0 1px rgba(var(--ring-b), 0.28),
+      0 0 18px rgba(var(--ring-a), 0.34),
+      0 0 34px rgba(var(--ring-b), 0.16);
+    background: #07101a;
+    transition: border-color 0.6s ease, box-shadow 0.6s ease;
   }
   .photo-ring img {
     position: absolute;
-    inset: 5px;
-    width: calc(100% - 10px);
-    height: calc(100% - 10px);
+    inset: 0;
+    width: 100%;
+    height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    z-index: 1;
-    border: 1px solid rgba(125, 246, 255, 0.35);
+    opacity: 0;
+    transform: scale(1.045);
+    transition: opacity 0.9s ease, transform 1.25s cubic-bezier(0.16, 0.84, 0.24, 1);
+    will-change: opacity, transform;
   }
+  .photo-ring img.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .photo-ring img.is-active.avatar-orea {
+    transform: scale(1.24);
+    transform-origin: 50% 66%;
+  }
+  .photo-ring img.is-active.avatar-nine {
+    transform: scale(1.08);
+  }
+  .photo-ring img.is-active.avatar-wangzai {
+    transform: scale(1.12);
+    transform-origin: 50% 45%;
+  }
+  .photo-ring img:not(.is-active) {
+    pointer-events: none;
+  }
+  .avatar-xin { object-position: center 50%; }
+  .avatar-orea { object-position: center 54%; }
+  .avatar-nine { object-position: center 48%; }
+  .avatar-wangzai { object-position: center 38%; }
 
   .sidebar-name {
     font-family: var(--disp);
@@ -295,6 +429,13 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+  .sidebar-name.name-pop {
+    animation: avatarNameIn 0.42s cubic-bezier(0.16, 0.84, 0.24, 1);
+  }
+  .sidebar-title.profile-pop,
+  .sidebar-affiliation.profile-pop {
+    animation: avatarNameIn 0.42s cubic-bezier(0.16, 0.84, 0.24, 1);
   }
   .sidebar-title {
     font-family: var(--mono);
@@ -385,37 +526,6 @@
     pointer-events: none;
     animation: scan 9s ease-in-out infinite;
   }
-
-  .hero-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-  .tag {
-    font-family: var(--mono);
-    font-size: 10.5px;
-    color: var(--cyan);
-    letter-spacing: 1px;
-  }
-  .hero-title {
-    font-family: var(--disp);
-    font-size: 30px;
-    line-height: 1.22;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    margin-bottom: 10px;
-    max-width: 16ch;
-    color: #f2f8ff;
-  }
-  .hero-title em {
-    font-style: normal;
-    background: linear-gradient(92deg, var(--cyan) 0%, var(--green) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-  .hero-sub { font-size: 13.5px; color: var(--text-dim); max-width: 46ch; }
 
   .hero-edge {
     position: absolute;
@@ -552,6 +662,26 @@
   .pub-authors { font-size: 12.5px; color: var(--text-faint); margin-bottom: 4px; }
   .pub-authors .self { color: var(--green); font-weight: 600; }
   .pub-venue { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+  .pub-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 7px;
+  }
+  .pub-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--cyan-2);
+    text-decoration: none;
+    opacity: 0.78;
+    transition: opacity 0.15s, color 0.15s;
+  }
+  .pub-link::after { content: " ↗"; }
+  .pub-link:hover { color: var(--green); opacity: 1; }
   .pub-badge {
     display: inline-block;
     font-family: var(--mono);
@@ -593,29 +723,34 @@
 
   /* Entrance + typed caret */
   .reveal { animation: revealSlide 0.75s cubic-bezier(0.16, 0.84, 0.24, 1) both; }
-  .typed-caret {
-    display: inline-block;
-    width: 8px;
-    height: 1.05em;
-    margin-left: 2px;
-    vertical-align: -0.16em;
-    background: var(--cyan);
-    box-shadow: 0 0 8px rgba(63, 233, 255, 0.7);
-    animation: blink 1s steps(1) infinite;
-  }
 
   /* Animation */
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes warpBreath {
+    0%, 100% { transform: scale(0.93); opacity: 0.62; }
+    48% { transform: scale(1.08); opacity: 1; }
+  }
+  @keyframes warpTunnel {
+    0%, 100% { transform: scale(0.9) rotate(-3deg); opacity: 0.3; }
+    52% { transform: scale(1.1) rotate(4deg); opacity: 0.74; }
+  }
+  @keyframes warpStreak {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes orbitA {
+    0%, 100% { transform: rotate(-18deg) scaleY(0.94); }
+    50% { transform: rotate(-9deg) scaleY(1.06); }
+  }
+  @keyframes orbitB {
+    0%, 100% { transform: rotate(22deg) scaleY(1.02); }
+    50% { transform: rotate(11deg) scaleY(0.9); }
+  }
   @keyframes scan {
     0% { top: 0; opacity: 0; }
     12% { opacity: 0.75; }
     70% { opacity: 0.35; }
     92% { opacity: 0; }
     100% { top: 100%; opacity: 0; }
-  }
-  @keyframes blink {
-    0%, 50% { opacity: 1; }
-    50.01%, 100% { opacity: 0; }
   }
   @keyframes edgeslide {
     from { background-position: 0% 0; }
@@ -624,6 +759,10 @@
   @keyframes revealSlide {
     from { transform: translateY(16px); }
     to { transform: none; }
+  }
+  @keyframes avatarNameIn {
+    0% { opacity: 0.25; transform: translateY(5px); }
+    100% { opacity: 1; transform: none; }
   }
 
   /* ── Responsive ── */
@@ -640,17 +779,15 @@
       border-bottom: 1px solid var(--line);
     }
     .status-line { margin-bottom: 22px; }
-    .photo-ring { width: 118px; height: 118px; }
+    .photo-ring { width: 136px; height: 136px; margin-bottom: 22px; }
+    .avatar-window { inset: 11px; }
     .main { min-width: 0; max-width: none; padding: 34px 24px 50px; width: 100%; flex: 1; }
     .hero { padding: 22px 20px; }
-    .hero-title { font-size: 25px; }
     .pub-item { min-width: 0; grid-template-columns: 34px minmax(0, 1fr); padding: 16px 16px 16px 12px; }
   }
   @media (max-width: 480px) {
     .main { padding: 28px 18px 44px; }
     .hero { padding: 20px 16px; }
-    .hero-top { align-items: flex-start; flex-wrap: wrap; gap: 8px; }
-    .hero-title { font-size: 24px; }
     .section-head { gap: 10px; }
     .section-label { font-size: 10px; }
     .interest-tags { gap: 7px; }
@@ -693,7 +830,17 @@
     </div>
 
     <div class="photo-ring">
-      <img src="images/photo.jpg" alt="Portrait of Xin TIAN" loading="eager">
+      <span class="warp-field" aria-hidden="true"></span>
+      <span class="warp-tunnel" aria-hidden="true"></span>
+      <span class="warp-streaks" aria-hidden="true"></span>
+      <span class="warp-orbit warp-orbit-a" aria-hidden="true"></span>
+      <span class="warp-orbit warp-orbit-b" aria-hidden="true"></span>
+      <div class="avatar-window">
+        <img class="avatar-frame avatar-xin is-active" data-name="Xin TIAN" data-role="SENIOR RESEARCHER" data-affiliation="Huawei Hisilicon" data-palette="59,169,247|241,220,95|126,166,252" src="images/photo.jpg" alt="Portrait of Xin TIAN" loading="eager" decoding="async">
+        <img class="avatar-frame avatar-orea" data-name="Orea" data-role="SENIOR FOODIE CAT" data-affiliation="Snack &amp; Treat Academy" data-palette="220,176,86|181,219,118|238,232,140" src="images/avatar/orea.jpg" alt="Orea, a food-loving blue and white cat" loading="eager" decoding="async" aria-hidden="true">
+        <img class="avatar-frame avatar-nine" data-name="Nine" data-role="SENIOR WELL-BEHAVED CAT" data-affiliation="School of Good Manners" data-palette="222,164,84|118,116,220|239,223,138" src="images/avatar/nine.jpg" alt="Nine, a well-behaved long-haired cat" loading="eager" decoding="async" aria-hidden="true">
+        <img class="avatar-frame avatar-wangzai" data-name="Wangzai" data-role="SENIOR MISCHIEVOUS CAT" data-affiliation="Household Mischief Bureau" data-palette="227,168,79|225,126,112|242,228,135" src="images/avatar/wangzai.jpg" alt="Wangzai, a mischievous tabby cat" loading="eager" decoding="async" aria-hidden="true">
+      </div>
     </div>
 
     <h1 class="sidebar-name">Xin TIAN</h1>
@@ -730,27 +877,23 @@
   <!-- ── Main Content ── -->
   <main class="main" id="main-content">
 
-    <section class="hero reveal">
+    <section id="about" class="hero reveal">
       <span class="scan" aria-hidden="true"></span>
-      <div class="hero-top">
-        <span class="tag">// RESEARCH PROFILE</span>
-      </div>
-      <h2 class="hero-title">Vision, <em>Multimodality</em> &amp; Frontier AI</h2>
-      <p class="hero-sub" id="heroSub">Computer vision, deep learning, and multimodal learning.</p>
-      <span class="hero-edge" aria-hidden="true"></span>
-    </section>
-
-    <section id="about" class="reveal">
       <div class="section-head">
         <h2 class="section-label">About</h2>
         <span class="section-rule"></span>
       </div>
       <p class="section-text">
-        I am a senior researcher in computer vision and deep learning, affiliated with Huawei Hisilicon.
-        I obtained a dual PhD in Computer Science from City University of Hong Kong and Dalian University of Technology in 2023.
-        I have published at top venues including CVPR, AAAI, IJCV, TIP, and BMVC.
-        As the first author, I received the Best Student Paper Runner-Up Award at BMVC 2020.
+        I am a senior researcher in computer vision and multimodal learning at Huawei Hisilicon.
+        My work focuses on translating cutting-edge research into commercial AI solutions.
+        I have developed perceptual visual quality enhancement models currently deployed on cloud media services
+        and low-power multimodal perception models that run in agents for smartphones.
+
+        Before joining Huawei, I earned a dual PhD in Computer Science from City University of Hong Kong and Dalian University of Technology in 2023.
+        My research has been published at top-tier venues including CVPR, AAAI, IJCV, TIP, TDSC, and BMVC,
+        and I received the Best Student Paper Runner-Up Award at BMVC 2020.
       </p>
+      <span class="hero-edge" aria-hidden="true"></span>
     </section>
 
     <section id="interests" class="reveal">
@@ -777,7 +920,7 @@
           <div class="pub-index">01</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:LkGwnXOMwfcC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://ojs.aaai.org/index.php/AAAI/article/view/38023" target="_blank" rel="noopener">
                 Video Mirror Detection with the Motion-in-Depth Cue
               </a>
               <span class="pub-badge badge-oral">Oral</span>
@@ -786,6 +929,10 @@
               Alex Warren, Ke Xu, <span class="self">Xin Tian</span>, Gary Tam, Benjamin Wah, Rynson Lau
             </div>
             <div class="pub-venue">AAAI, 2026</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://ojs.aaai.org/index.php/AAAI/article/download/38023/41985" target="_blank" rel="noopener" aria-label="Download PDF: Video Mirror Detection with the Motion-in-Depth Cue">PDF</a>
+              <a class="pub-link" href="https://doi.org/10.1609/aaai.v40i13.38023" target="_blank" rel="noopener" aria-label="DOI: Video Mirror Detection with the Motion-in-Depth Cue">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -793,7 +940,7 @@
           <div class="pub-index">02</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:_FxGoFyzp5QC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://openaccess.thecvf.com/content/CVPR2024/html/Tian_Unsupervised_Salient_Instance_Detection_CVPR_2024_paper.html" target="_blank" rel="noopener">
                 Unsupervised Salient Instance Detection
               </a>
             </div>
@@ -801,6 +948,10 @@
               <span class="self">Xin Tian</span>, Ke Xu, Rynson Lau
             </div>
             <div class="pub-venue">CVPR, 2024</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://openaccess.thecvf.com/content/CVPR2024/papers/Tian_Unsupervised_Salient_Instance_Detection_CVPR_2024_paper.pdf" target="_blank" rel="noopener" aria-label="Download PDF: Unsupervised Salient Instance Detection">PDF</a>
+              <a class="pub-link" href="https://doi.org/10.1109/cvpr52733.2024.00261" target="_blank" rel="noopener" aria-label="DOI: Unsupervised Salient Instance Detection">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -808,7 +959,7 @@
           <div class="pub-index">03</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:ufrVoPGSRksC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://ieeexplore.ieee.org/document/10444929/" target="_blank" rel="noopener">
                 Reverse Backdoor Distillation: Towards Online Backdoor Attack Detection for Deep Neural Network Models
               </a>
             </div>
@@ -816,6 +967,9 @@
               Zeming Yao, Hangtao Zhang, Yicheng Guo, <span class="self">Xin Tian</span>, Wei Peng, Yi Zou, Leo Yu Zhang, Chao Chen
             </div>
             <div class="pub-venue">IEEE Transactions on Dependable and Secure Computing (TDSC), 2024</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://doi.org/10.1109/tdsc.2024.3369751" target="_blank" rel="noopener" aria-label="DOI: Reverse Backdoor Distillation">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -823,7 +977,7 @@
           <div class="pub-index">04</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:W7OEmFMy1HYC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://openaccess.thecvf.com/content/CVPR2022/html/Tian_Bi-Directional_Object-Context_Prioritization_Learning_for_Saliency_Ranking_CVPR_2022_paper.html" target="_blank" rel="noopener">
                 Bi-directional Object-context Prioritization Learning for Saliency Ranking
               </a>
             </div>
@@ -831,6 +985,10 @@
               <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Lin Du, Baocai Yin, Rynson Lau
             </div>
             <div class="pub-venue">CVPR, 2022</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://openaccess.thecvf.com/content/CVPR2022/papers/Tian_Bi-Directional_Object-Context_Prioritization_Learning_for_Saliency_Ranking_CVPR_2022_paper.pdf" target="_blank" rel="noopener" aria-label="Download PDF: Bi-directional Object-context Prioritization Learning for Saliency Ranking">PDF</a>
+              <a class="pub-link" href="https://doi.org/10.1109/cvpr52688.2022.00579" target="_blank" rel="noopener" aria-label="DOI: Bi-directional Object-context Prioritization Learning for Saliency Ranking">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -838,7 +996,7 @@
           <div class="pub-index">05</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Tyk-4Ss8FVUC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://link.springer.com/article/10.1007/s11263-021-01553-w" target="_blank" rel="noopener">
                 Learning to Detect Instance-level Salient Objects using Complementary Image Labels
               </a>
             </div>
@@ -846,6 +1004,9 @@
               <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
             </div>
             <div class="pub-venue">International Journal of Computer Vision (IJCV), 2022</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://doi.org/10.1007/s11263-021-01553-w" target="_blank" rel="noopener" aria-label="DOI: Learning to Detect Instance-Level Salient Objects Using Complementary Image Labels">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -853,7 +1014,7 @@
           <div class="pub-index">06</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:Y0pCki6q_DkC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://ieeexplore.ieee.org/document/9565368/" target="_blank" rel="noopener">
                 Intensity-Aware Single-Image Deraining With Semantic and Color Regularization
               </a>
             </div>
@@ -861,6 +1022,9 @@
               Ke Xu, <span class="self">Xin Tian</span>, Xin Yang, Baocai Yin, Rynson Lau
             </div>
             <div class="pub-venue">IEEE Transactions on Image Processing (TIP), 2021</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://doi.org/10.1109/tip.2021.3116794" target="_blank" rel="noopener" aria-label="DOI: Intensity-Aware Single-Image Deraining With Semantic and Color Regularization">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -868,7 +1032,7 @@
           <div class="pub-index">07</div>
           <div class="pub-body">
             <div class="pub-title-row">
-              <a class="pub-title" href="https://scholar.google.com/citations?view_op=view_citation&hl=en&user=Ru6BvE4AAAAJ&citation_for_view=Ru6BvE4AAAAJ:UeHWp8X0CEIC" target="_blank" rel="noopener">
+              <a class="pub-title" href="https://www.bmva-archive.org.uk/bmvc/2020/conference/papers/paper_0430.html" target="_blank" rel="noopener">
                 Weakly-supervised Salient Instance Detection
               </a>
               <span class="pub-badge badge-oral">Oral</span>
@@ -878,6 +1042,10 @@
               <span class="self">Xin Tian</span>, Ke Xu, Xin Yang, Baocai Yin, Rynson Lau
             </div>
             <div class="pub-venue">BMVC, 2020</div>
+            <div class="pub-links">
+              <a class="pub-link" href="https://www.bmva-archive.org.uk/bmvc/2020/assets/papers/0430.pdf" target="_blank" rel="noopener" aria-label="Download PDF: Weakly-supervised Salient Instance Detection">PDF</a>
+              <a class="pub-link" href="https://doi.org/10.5244/C.34.111" target="_blank" rel="noopener" aria-label="DOI: Weakly-supervised Salient Instance Detection">DOI</a>
+            </div>
           </div>
         </div>
 
@@ -903,6 +1071,9 @@
     var DPR = Math.min(window.devicePixelRatio || 1, 2);
     var W = 0, H = 0, raf = null, lastFrame = 0;
     var particles = [];
+    var stars = [];
+    var meteors = [];
+    var nextMeteorAt = 0;
     var mouse = { x: -9999, y: -9999, active: false };
     var palette = [
       [63, 233, 255],
@@ -936,6 +1107,552 @@
           c: palette[i % palette.length]
         });
       }
+
+      var starCount = Math.max(64, Math.min(240, Math.round((W * H) / 8500)));
+      stars = [];
+      for (var s = 0; s < starCount; s++) {
+        var inBand = s % 5 === 0;
+        var starX = Math.random() * W;
+        var starY = Math.random() * H;
+        if (inBand) {
+          starX = W * (0.08 + Math.random() * 0.84);
+          starY = H * 0.08 + starX * 0.34 + (Math.random() - 0.5) * H * 0.24;
+          starY = Math.max(0, Math.min(H, starY));
+        }
+        stars.push({
+          x: starX,
+          y: starY,
+          r: 0.4 + Math.random() * 1.05,
+          base: 0.14 + Math.random() * 0.42,
+          speed: 0.00035 + Math.random() * 0.00095,
+          phase: Math.random() * Math.PI * 2,
+          color: s % 13 === 0 ? '116,255,184' : (s % 9 === 0 ? '127,246,255' : '220,245,255'),
+          flare: Math.random() > 0.82
+        });
+      }
+
+      meteors = [];
+      nextMeteorAt = (window.performance ? performance.now() : 0) + 350 + Math.random() * 850;
+    }
+
+    function drawStarfield(now) {
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = 0; i < stars.length; i++) {
+        var star = stars[i];
+        var pulse = 0.5 + 0.5 * Math.sin(now * star.speed + star.phase);
+        var alpha = star.base * (0.58 + pulse * 0.7);
+        ctx.fillStyle = 'rgba(' + star.color + ',' + alpha.toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (star.flare) {
+          ctx.strokeStyle = 'rgba(' + star.color + ',' + (alpha * 0.34).toFixed(3) + ')';
+          ctx.lineWidth = 0.45;
+          ctx.beginPath();
+          ctx.moveTo(star.x - 3.2, star.y);
+          ctx.lineTo(star.x + 3.2, star.y);
+          ctx.moveTo(star.x, star.y - 3.2);
+          ctx.lineTo(star.x, star.y + 3.2);
+          ctx.stroke();
+        }
+      }
+      ctx.restore();
+    }
+
+    function spawnMeteor(now) {
+      var direction = Math.random() > 0.5 ? 1 : -1;
+      var angle = 0.24 + Math.random() * 0.22;
+      var speed = 520 + Math.random() * 220;
+      meteors.push({
+        x: W * (direction > 0 ? 0.02 + Math.random() * 0.28 : 0.7 + Math.random() * 0.28),
+        y: H * (0.02 + Math.random() * 0.34),
+        vx: direction * Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+        direction: direction,
+        angle: angle,
+        length: 150 + Math.random() * 130,
+        born: now,
+        duration: 1.3 + Math.random() * 0.5,
+        color: Math.random() > 0.28 ? '127,246,255' : '116,255,184'
+      });
+    }
+
+    function drawMeteors(now) {
+      if (reduce) return;
+      if (now >= nextMeteorAt) {
+        spawnMeteor(now);
+        nextMeteorAt = now + 1400 + Math.random() * 1800;
+      }
+
+      ctx.save();
+      ctx.globalCompositeOperation = 'lighter';
+      for (var i = meteors.length - 1; i >= 0; i--) {
+        var meteor = meteors[i];
+        var age = (now - meteor.born) / 1000;
+        if (age > meteor.duration) {
+          meteors.splice(i, 1);
+          continue;
+        }
+
+        var progress = age / meteor.duration;
+        var fade = Math.sin(progress * Math.PI);
+        var headX = meteor.x + meteor.vx * age;
+        var headY = meteor.y + meteor.vy * age;
+        var trail = meteor.length * (0.62 + progress * 0.38);
+        var tailX = headX - Math.cos(meteor.angle) * meteor.direction * trail;
+        var tailY = headY - Math.sin(meteor.angle) * trail;
+        var gradient = ctx.createLinearGradient(tailX, tailY, headX, headY);
+        gradient.addColorStop(0, 'rgba(' + meteor.color + ',0)');
+        gradient.addColorStop(0.58, 'rgba(' + meteor.color + ',' + (fade * 0.24).toFixed(3) + ')');
+        gradient.addColorStop(0.94, 'rgba(' + meteor.color + ',' + (fade * 0.8).toFixed(3) + ')');
+        gradient.addColorStop(1, 'rgba(245,255,255,' + (fade * 0.95).toFixed(3) + ')');
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = 1.35;
+        ctx.lineCap = 'round';
+        ctx.shadowColor = 'rgba(' + meteor.color + ',0.7)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(headX, headY);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(245,255,255,' + (fade * 0.92).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(headX, headY, 1.25, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function motifAlpha(x, y, now, phase) {
+      var alpha = 0.072 + (0.5 + 0.5 * Math.sin(now * 0.00045 + phase)) * 0.014;
+      if (mouse.active) {
+        var dx = x - mouse.x;
+        var dy = y - mouse.y;
+        var distance = Math.sqrt(dx * dx + dy * dy);
+        alpha += Math.max(0, 1 - distance / 250) * 0.17;
+      }
+      return Math.min(alpha, 0.24);
+    }
+
+    function drawFeaturePyramid(x, y, size, alpha) {
+      var levels = [];
+      ctx.save();
+      ctx.lineWidth = 0.7;
+      for (var level = 0; level < 4; level++) {
+        var side = size * (0.4 + level * 0.16);
+        var left = x + level * size * 0.13;
+        var top = y + (3 - level) * size * 0.11;
+        levels.push({ x: left, y: top, size: side });
+        ctx.strokeStyle = 'rgba(63,233,255,' + (alpha * (0.68 + level * 0.09)).toFixed(3) + ')';
+        ctx.strokeRect(left, top, side, side * 0.82);
+        for (var division = 1; division < 3; division++) {
+          var gx = left + side * division / 3;
+          var gy = top + side * 0.82 * division / 3;
+          ctx.beginPath();
+          ctx.moveTo(gx, top);
+          ctx.lineTo(gx, top + side * 0.82);
+          ctx.moveTo(left, gy);
+          ctx.lineTo(left + side, gy);
+          ctx.stroke();
+        }
+        if (level < 3) {
+          var next = levels[level];
+          var target = {
+            x: x + (level + 1) * size * 0.13,
+            y: y + (2 - level) * size * 0.11,
+            size: size * (0.4 + (level + 1) * 0.16)
+          };
+          ctx.strokeStyle = 'rgba(116,255,184,' + (alpha * 0.88).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(next.x + next.size, next.y + next.size * 0.12);
+          ctx.lineTo(target.x + target.size, target.y + target.size * 0.12);
+          ctx.moveTo(next.x + next.size * 0.55, next.y + next.size * 0.82);
+          ctx.lineTo(target.x + target.size * 0.55, target.y + target.size * 0.82);
+          ctx.stroke();
+        }
+      }
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = 'rgba(255,94,168,' + (alpha * 0.72).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(levels[3].x + levels[3].size * 0.9, levels[3].y + 2);
+      ctx.bezierCurveTo(x + size * 0.7, y - size * 0.22, x + size * 0.1, y + size * 0.12, levels[0].x + 2, levels[0].y + levels[0].size * 0.4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(63,233,255,' + (alpha * 1.8).toFixed(3) + ')';
+      ctx.fillRect(levels[3].x + levels[3].size * 0.56, levels[3].y + levels[3].size * 0.44, 4, 4);
+      ctx.fillStyle = 'rgba(255,94,168,' + (alpha * 1.6).toFixed(3) + ')';
+      ctx.fillRect(levels[2].x + levels[2].size * 0.22, levels[2].y + levels[2].size * 0.2, 3, 3);
+      ctx.restore();
+    }
+
+    function drawFrozenTransformer(x, y, alpha, now) {
+      var patch = { x: x + 2, y: y - 13, size: 24 };
+      var tokensX = x + 34;
+      var encoderX = x + 63;
+      var branchX = x + 102;
+      var outputX = x + 142;
+      ctx.save();
+      ctx.lineWidth = 0.7;
+
+      ctx.strokeStyle = 'rgba(63,233,255,' + (alpha * 1.3).toFixed(3) + ')';
+      ctx.strokeRect(patch.x, patch.y, patch.size, patch.size);
+      for (var cell = 1; cell < 3; cell++) {
+        ctx.beginPath();
+        ctx.moveTo(patch.x + cell * 8, patch.y);
+        ctx.lineTo(patch.x + cell * 8, patch.y + patch.size);
+        ctx.moveTo(patch.x, patch.y + cell * 8);
+        ctx.lineTo(patch.x + patch.size, patch.y + cell * 8);
+        ctx.stroke();
+      }
+      ctx.fillStyle = 'rgba(63,233,255,' + (alpha * 1.35).toFixed(3) + ')';
+      ctx.fillRect(patch.x + 9, patch.y + 1, 6, 6);
+      ctx.fillStyle = 'rgba(255,94,168,' + (alpha * 1.25).toFixed(3) + ')';
+      ctx.fillRect(patch.x + 17, patch.y + 17, 6, 6);
+
+      ctx.strokeStyle = 'rgba(63,233,255,' + (alpha * 0.9).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(patch.x + patch.size, y);
+      ctx.lineTo(tokensX - 2, y);
+      ctx.moveTo(tokensX + 22, y);
+      ctx.lineTo(encoderX, y);
+      ctx.stroke();
+      for (var token = 0; token < 5; token++) {
+        ctx.fillStyle = 'rgba(' + (token === 3 ? '255,94,168' : '116,255,184') + ',' + (alpha * (0.78 + (Math.sin(now * 0.0008 + token) + 1) * 0.16)).toFixed(3) + ')';
+        ctx.fillRect(tokensX + token * 4, y - 2, 2.5, 4);
+      }
+
+      ctx.strokeStyle = 'rgba(116,255,184,' + (alpha * 1.35).toFixed(3) + ')';
+      ctx.strokeRect(encoderX, y - 20, 30, 40);
+      for (var layer = 0; layer < 3; layer++) {
+        var layerY = y - 14 + layer * 12;
+        ctx.strokeRect(encoderX + 5, layerY, 20, 7);
+        if (layer < 2) {
+          ctx.beginPath();
+          ctx.moveTo(encoderX + 15, layerY + 7);
+          ctx.lineTo(encoderX + 15, layerY + 12);
+          ctx.stroke();
+        }
+      }
+
+      var branchRows = [y - 10, y + 10];
+      for (var branch = 0; branch < 2; branch++) {
+        var rowY = branchRows[branch];
+        var color = branch === 0 ? '63,233,255' : '255,94,168';
+        ctx.strokeStyle = 'rgba(' + color + ',' + (alpha * 1.05).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(encoderX + 30, y);
+        ctx.lineTo(branchX, rowY);
+        ctx.lineTo(outputX, rowY);
+        ctx.stroke();
+        ctx.strokeRect(branchX, rowY - 5, 25, 10);
+        ctx.strokeRect(outputX, rowY - 5, 25, 10);
+        if (branch === 0) {
+          for (var bar = 0; bar < 3; bar++) {
+            ctx.fillStyle = 'rgba(63,233,255,' + (alpha * (1.1 - bar * 0.16)).toFixed(3) + ')';
+            ctx.fillRect(outputX + 4, rowY - 3 + bar * 2.5, 17 - bar * 3, 1.2);
+          }
+        } else {
+          for (var region = 0; region < 3; region++) {
+            ctx.fillStyle = 'rgba(' + (region === 1 ? '255,200,97' : '255,94,168') + ',' + (alpha * 1.2).toFixed(3) + ')';
+            ctx.fillRect(outputX + 4 + region * 6, rowY - 2, 4, 4);
+          }
+          ctx.setLineDash([2, 3]);
+          ctx.beginPath();
+          ctx.moveTo(outputX + 6, rowY - 5);
+          ctx.quadraticCurveTo(outputX + 14, rowY - 12, outputX + 22, rowY - 5);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+      }
+      ctx.restore();
+    }
+
+    function drawArrowHead(x, y, angle, color, alpha, size) {
+      ctx.strokeStyle = 'rgba(' + color + ',' + alpha.toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(x - size * Math.cos(angle - 0.55), y - size * Math.sin(angle - 0.55));
+      ctx.lineTo(x, y);
+      ctx.lineTo(x - size * Math.cos(angle + 0.55), y - size * Math.sin(angle + 0.55));
+      ctx.stroke();
+    }
+
+    function drawMotionInDepth(x, y, width, alpha, now) {
+      var colors = ['63,233,255', '116,255,184', '255,94,168'];
+      var lanes = [y - 22, y, y + 22];
+      var inputX = x + 15;
+      var coreX = x + width * 0.43;
+      var cell = 6;
+      ctx.save();
+      ctx.lineWidth = 0.7;
+
+      for (var mode = 0; mode < 3; mode++) {
+        ctx.strokeStyle = 'rgba(' + colors[mode] + ',' + (alpha * 1.8).toFixed(3) + ')';
+        if (mode === 1) {
+          ctx.beginPath();
+          ctx.moveTo(inputX + 7, lanes[mode] - 7);
+          ctx.lineTo(inputX + 14, lanes[mode]);
+          ctx.lineTo(inputX + 7, lanes[mode] + 7);
+          ctx.lineTo(inputX, lanes[mode]);
+          ctx.closePath();
+          ctx.stroke();
+        } else {
+          ctx.strokeRect(inputX, lanes[mode] - 6, 14, 12);
+          ctx.beginPath();
+          if (mode === 0) {
+            ctx.moveTo(inputX + 4, lanes[mode] - 6);
+            ctx.lineTo(inputX + 4, lanes[mode] + 6);
+            ctx.moveTo(inputX + 9, lanes[mode] - 6);
+            ctx.lineTo(inputX + 9, lanes[mode] + 6);
+          } else {
+            ctx.moveTo(inputX + 2, lanes[mode] + 4);
+            ctx.lineTo(inputX + 11, lanes[mode] - 4);
+            ctx.moveTo(inputX + 6, lanes[mode] + 6);
+            ctx.lineTo(inputX + 13, lanes[mode] - 1);
+          }
+          ctx.stroke();
+        }
+      }
+
+      for (var from = 0; from < 3; from++) {
+        for (var to = 0; to < 3; to++) {
+          if (from === to) continue;
+          var startX = inputX + 17;
+          var startY = lanes[from];
+          var endX = coreX;
+          var endY = y - 12 + to * 12;
+          var bend = (to - from) * 9;
+          ctx.strokeStyle = 'rgba(' + colors[from] + ',' + (alpha * 0.78).toFixed(3) + ')';
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.quadraticCurveTo((startX + endX) / 2, (startY + endY) / 2 + bend, endX, endY);
+          ctx.stroke();
+          drawArrowHead(endX, endY, Math.atan2(endY - startY + bend, endX - startX), colors[from], alpha * 0.72, 3.5);
+        }
+      }
+
+      var matrixX = coreX;
+      var matrixY = y - 18;
+      ctx.strokeStyle = 'rgba(127,246,255,' + (alpha * 1.7).toFixed(3) + ')';
+      ctx.strokeRect(matrixX - 2, matrixY - 2, cell * 3 + 4, cell * 3 + 4);
+      for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 3; col++) {
+          var weight = (row + col) % 3 === 0 ? 1.65 : 0.52;
+          ctx.fillStyle = 'rgba(' + colors[(row + col) % 3] + ',' + (alpha * weight).toFixed(3) + ')';
+          ctx.fillRect(matrixX + col * cell, matrixY + row * cell, cell - 1, cell - 1);
+        }
+      }
+
+      var bottleneckX = x + width * 0.68;
+      ctx.strokeStyle = 'rgba(63,233,255,' + (alpha * 1.25).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(matrixX + cell * 3 + 3, y);
+      ctx.lineTo(bottleneckX, y);
+      ctx.stroke();
+      for (var unit = 0; unit < 4; unit++) {
+        ctx.fillStyle = 'rgba(' + colors[unit % 3] + ',' + (alpha * (1.1 + (Math.sin(now * 0.001 + unit) + 1) * 0.25)).toFixed(3) + ')';
+        ctx.fillRect(bottleneckX + unit * 4, y - 2, 2, 4);
+      }
+
+      var outputX = x + width * 0.84;
+      ctx.strokeStyle = 'rgba(116,255,184,' + (alpha * 1.7).toFixed(3) + ')';
+      ctx.strokeRect(outputX, y - 23, 16, 10);
+      ctx.beginPath();
+      ctx.moveTo(outputX + 3, y - 21);
+      ctx.lineTo(outputX + 7, y - 15);
+      ctx.lineTo(outputX + 12, y - 21);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,94,168,' + (alpha * 1.7).toFixed(3) + ')';
+      ctx.strokeRect(outputX, y + 13, 16, 10);
+      ctx.beginPath();
+      ctx.moveTo(outputX + 3, y + 15);
+      ctx.lineTo(outputX + 7, y + 20);
+      ctx.lineTo(outputX + 12, y + 15);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawInstanceBranches(x, y, width, alpha) {
+      var sourceX = x + 10;
+      var branchX = x + 54;
+      var headsX = x + 97;
+      var mergeX = x + Math.min(145, width - 40);
+      var rows = [y - 19, y, y + 19];
+      var colors = ['63,233,255', '255,94,168', '116,255,184'];
+      ctx.save();
+      ctx.lineWidth = 0.7;
+
+      ctx.strokeStyle = 'rgba(63,233,255,' + (alpha * 1.5).toFixed(3) + ')';
+      ctx.strokeRect(sourceX, y - 9, 20, 18);
+      ctx.beginPath();
+      ctx.moveTo(sourceX + 5, y - 9);
+      ctx.lineTo(sourceX + 5, y + 9);
+      ctx.moveTo(sourceX + 11, y - 9);
+      ctx.lineTo(sourceX + 11, y + 9);
+      ctx.stroke();
+
+      for (var branch = 0; branch < 3; branch++) {
+        var color = colors[branch];
+        ctx.strokeStyle = 'rgba(' + color + ',' + (alpha * 1.15).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(sourceX + 20, y);
+        ctx.lineTo(branchX, rows[branch]);
+        ctx.lineTo(headsX, rows[branch]);
+        ctx.stroke();
+        ctx.strokeRect(headsX, rows[branch] - 5, 16, 10);
+        if (branch === 0) {
+          ctx.fillStyle = 'rgba(63,233,255,' + (alpha * 1.55).toFixed(3) + ')';
+          ctx.fillRect(headsX + 3, rows[branch] - 2, 4, 4);
+          ctx.fillRect(headsX + 9, rows[branch] - 3, 4, 5);
+        } else if (branch === 1) {
+          ctx.beginPath();
+          ctx.moveTo(headsX + 2, rows[branch] + 2);
+          ctx.lineTo(headsX + 5, rows[branch] - 2);
+          ctx.lineTo(headsX + 9, rows[branch] + 1);
+          ctx.lineTo(headsX + 14, rows[branch] - 3);
+          ctx.stroke();
+        } else {
+          ctx.beginPath();
+          ctx.arc(headsX + 5, rows[branch], 1.8, 0, Math.PI * 2);
+          ctx.arc(headsX + 11, rows[branch], 1.8, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.beginPath();
+        ctx.moveTo(headsX + 16, rows[branch]);
+        ctx.lineTo(mergeX, y);
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.arc(mergeX, y, 3.5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,200,97,' + (alpha * 1.7).toFixed(3) + ')';
+      ctx.fill();
+      var maskX = x + width - 22;
+      ctx.strokeStyle = 'rgba(255,200,97,' + (alpha * 0.9).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(mergeX + 3.5, y);
+      ctx.lineTo(maskX, y);
+      ctx.stroke();
+      ctx.strokeStyle = 'rgba(127,246,255,' + (alpha * 1.8).toFixed(3) + ')';
+      ctx.strokeRect(maskX, y - 10, 18, 20);
+      ctx.beginPath();
+      ctx.moveTo(maskX + 2, y + 3);
+      ctx.lineTo(maskX + 7, y - 4);
+      ctx.lineTo(maskX + 12, y + 2);
+      ctx.lineTo(maskX + 16, y - 5);
+      ctx.stroke();
+
+      ctx.setLineDash([3, 4]);
+      ctx.strokeStyle = 'rgba(255,94,168,' + (alpha * 0.8).toFixed(3) + ')';
+      ctx.beginPath();
+      ctx.moveTo(maskX + 16, y - 10);
+      ctx.bezierCurveTo(maskX + 18, y - 29, sourceX + 3, y - 29, sourceX + 3, y - 10);
+      ctx.stroke();
+      drawArrowHead(sourceX + 3, y - 10, Math.PI / 2, '255,94,168', alpha * 0.8, 3.5);
+      ctx.restore();
+    }
+
+    function drawObjectContext(x, y, width, alpha) {
+      var left = [
+        { x: x + 20, y: y - 14 },
+        { x: x + 31, y: y },
+        { x: x + 20, y: y + 14 }
+      ];
+      var right = [
+        { x: x + width - 36, y: y - 14 },
+        { x: x + width - 25, y: y },
+        { x: x + width - 36, y: y + 14 }
+      ];
+      var center = { x: x + width * 0.51, y: y };
+      ctx.save();
+      ctx.lineWidth = 0.7;
+
+      function link(a, b, color, strength, curve) {
+        ctx.strokeStyle = 'rgba(' + color + ',' + (alpha * strength).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.quadraticCurveTo((a.x + b.x) / 2, (a.y + b.y) / 2 + curve, b.x, b.y);
+        ctx.stroke();
+      }
+
+      for (var i = 0; i < 3; i++) {
+        link(left[i], left[(i + 1) % 3], '63,233,255', 0.86, i === 1 ? 4 : -3);
+        link(right[i], right[(i + 1) % 3], '116,255,184', 0.86, i === 1 ? -4 : 3);
+        link(left[i], center, '63,233,255', 0.62, -4);
+        link(center, left[i], '63,233,255', 0.44, 4);
+        link(right[i], center, '116,255,184', 0.62, 4);
+        link(center, right[i], '116,255,184', 0.44, -4);
+      }
+
+      ctx.setLineDash([3, 4]);
+      link(left[1], right[1], '255,94,168', 1.15, -12);
+      ctx.setLineDash([]);
+
+      for (var n = 0; n < 3; n++) {
+        ctx.beginPath();
+        ctx.arc(left[n].x, left[n].y, 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(63,233,255,' + (alpha * 2).toFixed(3) + ')';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(right[n].x, right[n].y, 2.4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(116,255,184,' + (alpha * 2).toFixed(3) + ')';
+        ctx.fill();
+      }
+      ctx.beginPath();
+      ctx.arc(center.x, center.y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,200,97,' + (alpha * 1.8).toFixed(3) + ')';
+      ctx.fill();
+
+      var rankX = x + width - 12;
+      for (var rank = 0; rank < 4; rank++) {
+        ctx.fillStyle = 'rgba(' + ['63,233,255', '116,255,184', '255,200,97', '255,94,168'][rank] + ',' + (alpha * 1.35).toFixed(3) + ')';
+        ctx.fillRect(rankX, y - 12 + rank * 7, 5 + (3 - rank) * 2, 3);
+      }
+      ctx.restore();
+    }
+
+    function drawScaledMotif(drawer, x, y, scale, args) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.scale(scale, scale);
+      drawer.apply(null, args);
+      ctx.restore();
+    }
+
+    function drawResearchMotifs(now) {
+      if (W < 1100) return;
+
+      var sidebar = document.querySelector('.sidebar');
+      var main = document.querySelector('.main');
+      var sidebarEdge = sidebar ? sidebar.getBoundingClientRect().left : 0;
+      var mainRect = main ? main.getBoundingClientRect() : { right: W };
+      var mainStyle = main ? window.getComputedStyle(main) : null;
+      var contentEdge = mainRect.right - (mainStyle ? parseFloat(mainStyle.paddingRight) || 0 : 0);
+      var leftX = 10;
+      var rightX = contentEdge + 10;
+      var leftScale = Math.min(1, Math.max(0, (sidebarEdge - 20) / 178));
+      var rightScale = Math.min(1, Math.max(0, (W - contentEdge - 20) / 216));
+
+      if (leftScale >= 0.55) {
+        var transformerY = H * 0.14;
+        drawScaledMotif(drawFrozenTransformer, leftX, transformerY, leftScale, [0, 0, motifAlpha(leftX + 88 * leftScale, transformerY, now, 0.9), now]);
+
+        var featureSize = Math.max(72, Math.min(108, W * 0.075));
+        var pyramidY = H * 0.29;
+        drawScaledMotif(drawFeaturePyramid, leftX, pyramidY, leftScale, [0, 0, featureSize, motifAlpha(leftX + featureSize * 0.55 * leftScale, pyramidY + featureSize * 0.37 * leftScale, now, 0)]);
+
+        var branchY = H * 0.69;
+        drawScaledMotif(drawInstanceBranches, leftX, branchY, leftScale, [0, 0, 180, motifAlpha(leftX + 90 * leftScale, branchY, now, 2.7)]);
+      }
+
+      if (rightScale >= 0.55) {
+        var midY = H * 0.22;
+        drawScaledMotif(drawMotionInDepth, rightX, midY, rightScale, [0, 0, 216, motifAlpha(rightX + 108 * rightScale, midY, now, 1.8), now]);
+
+        var graphY = H * 0.67;
+        drawScaledMotif(drawObjectContext, rightX, graphY, rightScale, [0, 0, 188, motifAlpha(rightX + 94 * rightScale, graphY, now, 3.4)]);
+      }
     }
 
     function frame(now) {
@@ -946,6 +1663,9 @@
       }
       lastFrame = now || 0;
       ctx.clearRect(0, 0, W, H);
+      drawStarfield(now || 0);
+      drawMeteors(now || 0);
+      drawResearchMotifs(now || 0);
 
       for (var i = 0; i < particles.length; i++) {
         var p = particles[i];
@@ -1072,8 +1792,233 @@
 
 <script>
   (function () {
-    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var ring = document.querySelector('.photo-ring');
+    var frames = Array.prototype.slice.call(document.querySelectorAll('.avatar-frame'));
+    var nameEl = document.querySelector('.sidebar-name');
+    var roleEl = document.querySelector('.sidebar-title');
+    var affiliationEl = document.querySelector('.sidebar-affiliation');
+    if (!ring || frames.length < 2) return;
 
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var current = 0;
+    var timer = null;
+    var hovering = false;
+    var paletteCache = Object.create(null);
+    var fallbackPalette = [
+      [63, 233, 255],
+      [116, 255, 184],
+      [127, 246, 255]
+    ];
+
+    function rgbToHsl(r, g, b) {
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      var max = Math.max(r, g, b);
+      var min = Math.min(r, g, b);
+      var lightness = (max + min) / 2;
+      var delta = max - min;
+      var hue = 0;
+      var saturation = 0;
+
+      if (delta > 0) {
+        saturation = lightness > 0.5
+          ? delta / (2 - max - min)
+          : delta / (max + min);
+        if (max === r) hue = (g - b) / delta + (g < b ? 6 : 0);
+        else if (max === g) hue = (b - r) / delta + 2;
+        else hue = (r - g) / delta + 4;
+        hue *= 60;
+      }
+      return [hue, saturation, lightness];
+    }
+
+    function hslToRgb(hue, saturation, lightness) {
+      hue = ((hue % 360) + 360) % 360 / 360;
+
+      function channel(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+        return p;
+      }
+
+      if (saturation === 0) {
+        var gray = Math.round(lightness * 255);
+        return [gray, gray, gray];
+      }
+
+      var q = lightness < 0.5
+        ? lightness * (1 + saturation)
+        : lightness + saturation - lightness * saturation;
+      var p = 2 * lightness - q;
+      return [
+        Math.round(channel(p, q, hue + 1 / 3) * 255),
+        Math.round(channel(p, q, hue) * 255),
+        Math.round(channel(p, q, hue - 1 / 3) * 255)
+      ];
+    }
+
+    function presetPalette(img) {
+      var value = img && img.getAttribute('data-palette');
+      if (!value) return fallbackPalette;
+      var colors = value.split('|').map(function (item) {
+        return item.split(',').map(function (channel) {
+          return Math.max(0, Math.min(255, parseInt(channel, 10) || 0));
+        });
+      });
+      return colors.length === 3 && colors.every(function (color) {
+        return color.length === 3;
+      }) ? colors : fallbackPalette;
+    }
+
+    function extractPalette(img) {
+      if (!img || !img.complete || !img.naturalWidth) return presetPalette(img);
+      var cacheKey = img.currentSrc || img.src;
+      if (paletteCache[cacheKey]) return paletteCache[cacheKey];
+
+      var palette = presetPalette(img);
+      try {
+        var sample = document.createElement('canvas');
+        sample.width = 36;
+        sample.height = 36;
+        var sampleCtx = sample.getContext('2d', { willReadFrequently: true });
+        var side = Math.min(img.naturalWidth, img.naturalHeight);
+        var sourceX = (img.naturalWidth - side) / 2;
+        var sourceY = (img.naturalHeight - side) / 2;
+        sampleCtx.drawImage(img, sourceX, sourceY, side, side, 0, 0, sample.width, sample.height);
+
+        var pixels = sampleCtx.getImageData(0, 0, sample.width, sample.height).data;
+        var bins = [];
+        for (var bin = 0; bin < 24; bin++) {
+          bins.push({ score: 0, sin: 0, cos: 0, hue: 0 });
+        }
+
+        var saturationTotal = 0;
+        var samples = 0;
+        for (var i = 0; i < pixels.length; i += 4) {
+          if (pixels[i + 3] < 128) continue;
+          var hsl = rgbToHsl(pixels[i], pixels[i + 1], pixels[i + 2]);
+          var hue = hsl[0];
+          var saturation = hsl[1];
+          var lightness = hsl[2];
+          if (lightness < 0.06 || lightness > 0.96) continue;
+
+          var weight = (0.14 + saturation * 0.86) * (0.4 + (1 - Math.abs(lightness - 0.52) * 1.15));
+          var binIndex = Math.min(23, Math.floor(hue / 15));
+          var radians = hue * Math.PI / 180;
+          bins[binIndex].score += weight;
+          bins[binIndex].sin += Math.sin(radians) * weight;
+          bins[binIndex].cos += Math.cos(radians) * weight;
+          saturationTotal += saturation;
+          samples++;
+        }
+
+        var primaryBin = 0;
+        for (var candidate = 1; candidate < bins.length; candidate++) {
+          if (bins[candidate].score > bins[primaryBin].score) primaryBin = candidate;
+        }
+
+        var averageSaturation = samples ? saturationTotal / samples : 0;
+        var primaryHue = 205;
+        if (bins[primaryBin].score > 0) {
+          primaryHue = Math.atan2(bins[primaryBin].sin, bins[primaryBin].cos) * 180 / Math.PI;
+          primaryHue = (primaryHue + 360) % 360;
+        }
+        if (averageSaturation < 0.055) primaryHue = 205;
+
+        var secondaryHue = (primaryHue + 42) % 360;
+        var secondaryScore = 0;
+        for (var nextBin = 0; nextBin < bins.length; nextBin++) {
+          if (!bins[nextBin].score) continue;
+          var nextHue = (Math.atan2(bins[nextBin].sin, bins[nextBin].cos) * 180 / Math.PI + 360) % 360;
+          var hueDistance = Math.abs(nextHue - primaryHue);
+          hueDistance = Math.min(hueDistance, 360 - hueDistance);
+          if (hueDistance > 28 && bins[nextBin].score > secondaryScore) {
+            secondaryScore = bins[nextBin].score;
+            secondaryHue = nextHue;
+          }
+        }
+
+        var primarySaturation = Math.max(0.66, Math.min(0.92, averageSaturation * 1.8 + 0.42));
+        palette = [
+          hslToRgb(primaryHue, primarySaturation, 0.6),
+          hslToRgb(secondaryHue, Math.max(0.58, primarySaturation - 0.08), 0.66),
+          hslToRgb(primaryHue + 16, Math.min(0.95, primarySaturation + 0.08), 0.74)
+        ];
+      } catch (error) {
+        palette = presetPalette(img);
+      }
+
+      paletteCache[cacheKey] = palette;
+      return palette;
+    }
+
+    function applyRingPalette(img) {
+      var palette = extractPalette(img);
+      ring.style.setProperty('--ring-a', palette[0].join(', '));
+      ring.style.setProperty('--ring-b', palette[1].join(', '));
+      ring.style.setProperty('--ring-c', palette[2].join(', '));
+    }
+
+    function show(index) {
+      frames[current].classList.remove('is-active');
+      frames[current].setAttribute('aria-hidden', 'true');
+      current = (index + frames.length) % frames.length;
+      frames[current].classList.add('is-active');
+      frames[current].removeAttribute('aria-hidden');
+      applyRingPalette(frames[current]);
+      if (nameEl) {
+        nameEl.textContent = frames[current].getAttribute('data-name') || 'Xin TIAN';
+        if (roleEl) roleEl.textContent = frames[current].getAttribute('data-role') || 'SENIOR RESEARCHER';
+        if (affiliationEl) affiliationEl.textContent = frames[current].getAttribute('data-affiliation') || 'Huawei Hisilicon';
+        nameEl.classList.remove('name-pop');
+        if (roleEl) roleEl.classList.remove('profile-pop');
+        if (affiliationEl) affiliationEl.classList.remove('profile-pop');
+        void nameEl.offsetWidth;
+        nameEl.classList.add('name-pop');
+        if (roleEl) roleEl.classList.add('profile-pop');
+        if (affiliationEl) affiliationEl.classList.add('profile-pop');
+      }
+    }
+
+    function stop() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    function start() {
+      stop();
+      if (reduce || hovering || document.hidden) return;
+      timer = setInterval(function () {
+        show(current + 1);
+      }, 4200);
+    }
+
+    ring.addEventListener('mouseenter', function () {
+      hovering = true;
+      stop();
+    });
+    ring.addEventListener('mouseleave', function () {
+      hovering = false;
+      start();
+    });
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    if (frames[0].complete) applyRingPalette(frames[0]);
+    else frames[0].addEventListener('load', function () { applyRingPalette(frames[0]); }, { once: true });
+
+    start();
+  })();
+</script>
+
+<script>
+  (function () {
     // Scroll progress bar
     var bar = document.getElementById('scrollBar');
     function updateProgress() {
@@ -1086,25 +2031,6 @@
     window.addEventListener('scroll', updateProgress, { passive: true });
     window.addEventListener('resize', updateProgress);
     updateProgress();
-
-    // Terminal typewriter on the hero subtitle
-    var sub = document.getElementById('heroSub');
-    if (sub) {
-      var full = sub.textContent.trim();
-      sub.setAttribute('aria-label', full);
-      if (!reduce) {
-        sub.innerHTML = '<span id="typedText"></span><span class="typed-caret" aria-hidden="true"></span>';
-        var typed = document.getElementById('typedText');
-        var idx = 0;
-        (function type() {
-          if (idx <= full.length) {
-            typed.textContent = full.slice(0, idx);
-            idx++;
-            setTimeout(type, idx < 5 ? 90 : 33);
-          }
-        })();
-      }
-    }
 
     // Cursor spotlight inside hero and publication cards
     function bindSpotlight(selector) {
